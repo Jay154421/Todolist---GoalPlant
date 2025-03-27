@@ -1,8 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import supabase from "../Supabase/SupabaseClient";
-import "../css/Header.css";
+import React, { useState } from "react";
 
 export function Header() {
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuVisible(!menuVisible);
+  };
+
   const navigate = useNavigate();
 
   const signOut = async () => {
@@ -12,24 +18,46 @@ export function Header() {
   };
 
   return (
-    <header className="header">
-      <h1>Goal Plan</h1>
-      <nav>
-        <ul>
-          <li>
-            <a href="/">Home</a>
+    <header className="bg-blue-500 text-white p-4 flex items-center relative">
+      <div className="fas fa-bars mr-4 cursor-pointer" onClick={toggleMenu}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="M4 18h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1m0-5h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1M3 7c0 .55.45 1 1 1h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1"
+          />
+        </svg>
+      </div>
+      <h1 className="text-lg font-bold">GoalPlan</h1>
+      <nav
+        id="menu"
+        className={`absolute top-full left-0 w-full bg-white shadow-lg ${
+          menuVisible ? "" : "hidden"
+        }`}
+      >
+        <ul className="flex flex-col">
+          <li className="p-4 border-b border-gray-200 hover:bg-gray-200">
+            <a href="/Dashboard" className="text-gray-800">
+              Task
+            </a>
           </li>
-          <li>
-            <a href="/about">About</a>
+          <li className="p-4 border-b border-gray-200 hover:bg-gray-200">
+            <a href="/CompleteTask" className="text-gray-800">
+              Complete Task
+            </a>
           </li>
-          <li>
-            <a href="/contact">Contact</a>
+
+          <li className="p-4 hover:bg-gray-200">
+            <button className="text-gray-800 cursor-pointer" onClick={signOut}>
+              Logout
+            </button>
           </li>
         </ul>
       </nav>
-      <button onClick={signOut} className="sign-out-button">
-        Sign Out
-      </button>
     </header>
   );
 }

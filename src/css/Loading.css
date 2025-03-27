@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center; /* Changed from align-self to align-items */
-  margin-top: 350px;
+  height: 100vh;
 }
 
 .loader {

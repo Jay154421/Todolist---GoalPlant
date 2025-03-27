@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../Supabase/SupabaseClient";
+import "../css/login.css";
 
 export function LoginPage() {
   const [email, setEmail] = useState("");
@@ -31,45 +32,45 @@ export function LoginPage() {
 
   return (
     <div className="container">
-      <h1>Login </h1>
-      <form class="form" onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit}>
         {message && <div className="message">{message}</div>}
-        <span class="input-span">
-          <label for="email" class="label">
-            Email
-          </label>
+
+        <div className="group">
           <input
+            className="input"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
             required
             name="email"
             id="email"
           />
-        </span>
-        <span class="input-span">
-          <label for="password" class="label">
-            Password
-          </label>
+          <span className="highlight" />
+          <span className="bar" />
+          <label>Email</label>
+        </div>
+
+        <div className="group">
           <input
+            className="input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
             required
             name="password"
             id="password"
           />
-        </span>
-        <input class="submit" type="submit" value="Log in" />
-        <span class="span">
-          <a href="#">Forgot password?</a>
+          <span className="highlight" />
+          <span className="bar" />
+          <label>Password</label>
+        </div>
+
+        <input className="submit" type="submit" value="Log in" />
+        <span className="span">
+          <p>Forgot password?</p>
         </span>
         <Link to="/signup" className="register-link">
-          <span class="span">
-            Don't have an account? <a href="#">Sign up</a>
-          </span>
+          <span className="span">Don't have an account? Sign up</span>
         </Link>
       </form>
     </div>
