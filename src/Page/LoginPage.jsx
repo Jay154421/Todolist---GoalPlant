@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../Supabase/SupabaseClient";
-import "../css/login.css";
 
 export function LoginPage() {
   const [email, setEmail] = useState("");
@@ -31,48 +30,70 @@ export function LoginPage() {
   };
 
   return (
-    <div className="container">
-      <form className="form" onSubmit={handleSubmit}>
-        {message && <div className="message">{message}</div>}
+    <div className=" flex items-center justify-center min-h-screen">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 className="text-center text-blue-600 text-2xl font-bold mb-6">
+          GoalPlan
+        </h1>
+        <h2 className="text-center text-gray-700 text-lg font-semibold mb-6">
+          Sign in to your account
+        </h2>
 
-        <div className="group">
-          <input
-            className="input"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            name="email"
-            id="email"
-          />
-          <span className="highlight" />
-          <span className="bar" />
-          <label>Email</label>
-        </div>
+        <form onSubmit={handleSubmit}>
+          {message && (
+            <div className="bg-red-500 text-white p-2 rounded-lg w-full text-center mb-4">
+              {message}
+            </div>
+          )}
 
-        <div className="group">
-          <input
-            className="input"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            name="password"
-            id="password"
-          />
-          <span className="highlight" />
-          <span className="bar" />
-          <label>Password</label>
-        </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2" htmlFor="email">
+              Email
+            </label>
+            <input
+              className="w-full p-2 rounded border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              name="email"
+              id="email"
+            />
+          </div>
 
-        <input className="submit" type="submit" value="Log in" />
-        <span className="span">
-          <p>Forgot password?</p>
-        </span>
-        <Link to="/signup" className="register-link">
-          <span className="span">Don't have an account? Sign up</span>
-        </Link>
-      </form>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2" htmlFor="password">
+              Password
+            </label>
+            <input
+              className="w-full p-2 rounded border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              name="password"
+              id="password"
+            />
+          </div>
+
+          <div className="flex items-center justify-between mb-6">
+            <a className="text-blue-500 hover:underline" href="#">
+              Forgot Password?
+            </a>
+          </div>
+
+          <button className="w-full bg-blue-600 text-white py-2 rounded mb-4 hover:bg-blue-500 transition duration-300">
+            Sign In
+          </button>
+
+          <div className="text-center text-gray-700">
+            New user?{" "}
+            <Link className="text-blue-500 hover:underline" to="/signup">
+              Register
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

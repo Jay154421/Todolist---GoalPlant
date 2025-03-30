@@ -5,6 +5,7 @@ export const Card = ({
   dueDate,
   category,
   onDelete,
+  onEdit, // Add onEdit prop
   id,
 }) => {
   const priorityStyles = {
@@ -20,7 +21,6 @@ export const Card = ({
     work: "bg-violet-200 text-violet-800",
   };
 
-  // Determine if the task is overdue
   const isOverdue = new Date(dueDate) < new Date();
 
   const handleDelete = () => {
@@ -33,29 +33,28 @@ export const Card = ({
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md">
+    <div className="bg-white m-2 p-4 rounded-lg shadow-md">
       <div className="flex items-center mb-2">
         <input type="checkbox" className="mr-2" />
         <h3 className="font-bold text-xl">{title}</h3>
 
-        {/* Priority */}
         <span
           className={`ml-2 text-xs px-2 py-1 rounded-full ${priorityStyles[priority]}`}
         >
           {priority}
         </span>
-        {/*Close Priority*/}
 
-        {/* Category*/}
         <span
           className={`ml-2 text-xs px-2 py-1 rounded-full ${categoryStyles[category]}`}
         >
           {category}
         </span>
-        {/*Close Category*/}
 
-        {/*Edit*/}
-        <i className="ml-auto cursor-pointer">
+        {/* Edit Button */}
+        <i
+          onClick={() => onEdit(id)} // Call onEdit when clicked
+          className="ml-auto cursor-pointer"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={18}
@@ -74,9 +73,8 @@ export const Card = ({
             </g>
           </svg>
         </i>
-        {/*Close Edit*/}
 
-        {/*Delete*/}
+        {/* Delete Button */}
         <i className="ml-2">
           <svg
             onClick={handleDelete}
@@ -96,13 +94,10 @@ export const Card = ({
             ></path>
           </svg>
         </i>
-        {/*Close Delete*/}
-        
       </div>
-      {/*subtitle*/}
+
       <p className="text-gray-600 text-sm">{subtitle}</p>
-      {/*Close subtitle*/}
-      {/*Date Due or Overdue*/}
+
       {isOverdue ? (
         <p className="text-red-500 text-xs mt-2 flex gap-1 items-center">
           <svg
@@ -142,7 +137,6 @@ export const Card = ({
           Due: {dueDate}
         </p>
       )}
-      {/*Close Date Due or Overdue*/}
     </div>
   );
 };

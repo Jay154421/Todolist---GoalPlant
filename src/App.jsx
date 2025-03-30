@@ -9,6 +9,7 @@ import { CompleteTaskPage } from "./Page/CompleteTaskPage";
 import "./css/App.css";
 import TestPage from "./Page/testPage";
 import TestPage2 from "./Page/testPage2";
+import { EditPage } from "./Page/EditPage";
 
 function App() {
   return (
@@ -50,6 +51,15 @@ function App() {
           element={
             <ProtectedRoute>
               <CreateTaskPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/edit-task/:taskId"
+          element={
+            <ProtectedRoute>
+              <EditPage />
             </ProtectedRoute>
           }
         />

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import supabase from "../Supabase/SupabaseClient";
 import { Header } from "./Header";
 import { Card } from "../Components/Card.jsx";
@@ -7,58 +8,62 @@ import { SortOrder } from "../Components/SortOrder.jsx";
 
 export const DashBoardPage = () => {
   const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true); // New state for loading status
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
+  const navigate = useNavigate(); // For navigation
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        // Retrieve user authentication details
         const {
           data: { user },
         } = await supabase.auth.getUser();
-
-        // Fetch tasks for the authenticated user, specifying only needed fields
         const { data, error } = await supabase
           .from("tasks")
-          .select("id, title, priority, description, due_date, category") // Select specific columns
-          .eq("user_id", user.id) // Filter by user_id
-          .limit(50); // Limit the number of tasks fetched to 50 (for example)
+          .select("id, title, priority, description, due_date, category")
+          .eq("user_id", user.id)
+          .limit(50);
 
-        if (error) {
-          console.error("Error fetching tasks:", error.message);
-          throw error;
-        }
+        if (error) throw error;
 
-        setTasks(data); // Set tasks in state
+        setTasks(data);
       } catch (error) {
         console.error("Error fetching tasks:", error.message);
       } finally {
-        setLoading(false); // Set loading state to false once the fetch completes
+        setLoading(false);
       }
     };
 
     fetchTasks();
-
-    return () => {
-      setTasks([]); // Cleanup tasks on component unmount
-    };
-  }, []); // Empty dependency array to run only once when the component mounts
+  }, []);
 
   const handleDelete = async (taskId) => {
     try {
-      // Delete the task from the database
       const { error } = await supabase.from("tasks").delete().eq("id", taskId);
-      console.log(taskId);
       if (error) throw error;
-
-      // Remove the deleted task from the state
       setTasks(tasks.filter((task) => task.id !== taskId));
     } catch (error) {
       console.error("Error deleting task:", error.message);
     }
   };
 
-  // If data is still loading, display a loading message
+  // Filter tasks based on category
+  const filteredTasks = selectedCategory
+    ? tasks.filter((task) => task.category === selectedCategory)
+    : tasks;
+
+  // Sort tasks based on title (A-Z or Z-A)
+  const sortedTasks = [...filteredTasks].sort((a, b) => {
+    return sortOrder === "asc"
+      ? a.title.localeCompare(b.title)
+      : b.title.localeCompare(a.title);
+  });
+
+  const handleEdit = (taskId) => {
+    navigate(`/edit-task/${taskId}`); // Navigate to the edit page
+  };
+
   if (loading) {
     return (
       <div className="font-roboto">
@@ -75,16 +80,19 @@ export const DashBoardPage = () => {
   return (
     <div className="font-roboto">
       <Header />
-
-      {/* Main */}
       <main className="flex flex-col h-screen">
         <div className="mb-12">
-          <SortOrder />
+          <SortOrder
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
         </div>
 
         <div className="space-y-4">
-          {tasks.length > 0 ? (
-            tasks.map((task) => (
+          {sortedTasks.length > 0 ? (
+            sortedTasks.map((task) => (
               <Card
                 key={task.id}
                 id={task.id}
@@ -94,6 +102,7 @@ export const DashBoardPage = () => {
                 dueDate={task.due_date}
                 category={task.category}
                 onDelete={handleDelete}
+                onEdit={handleEdit} // Pass onEdit to Card
               />
             ))
           ) : (
@@ -102,22 +111,22 @@ export const DashBoardPage = () => {
         </div>
       </main>
 
-      {/* Add button */}
-      <Link to="/create-task">
-        <button className="fixed bottom-4 right-4 bg-blue-500 text-white rounded-full shadow-lg cursor-pointer">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="50"
-            height="50"
-            viewBox="0 0 16 16"
-          >
-            <path
-              fill="currentColor"
-              d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5z"
-            />
-          </svg>
-        </button>
-      </Link>
+      {/* Add Task Button */}
+      <div className="fixed bottom-6 right-6">
+        <Link to="/create-task">
+          <button className="h-14 w-14 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-lg hover:bg-blue-600 transition-colors">
+            <svg
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M12 6v12M6 12h12" />
+            </svg>
+          </button>
+        </Link>
+      </div>
     </div>
   );
 };

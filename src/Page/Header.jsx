@@ -32,14 +32,14 @@ export function Header() {
           />
         </svg>
       </div>
-      <h1 className="text-lg font-bold">GoalPlan</h1>
+      <h1 className="text-lg font-bold">Todo-List</h1>
       <nav
         id="menu"
         className={`absolute top-full left-0 w-full bg-white shadow-lg ${
           menuVisible ? "" : "hidden"
         }`}
       >
-        <ul className="flex flex-col">
+        <ul className="flex flex-col ">
           <li className="p-4 border-b border-gray-200 hover:bg-gray-200">
             <a href="/Dashboard" className="text-gray-800">
               Task
