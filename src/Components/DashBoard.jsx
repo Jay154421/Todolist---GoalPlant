@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import supabase from "../Supabase/SupabaseClient";
-import { Header } from "./Header";
-import { Card } from "../Components/Card.jsx";
+import supabase from "../Supabase/SupabaseClient.js";
+import { Header } from "./Header.jsx";
+import { Card } from "./Card.jsx";
 import { Link } from "react-router-dom";
-import { SortOrder } from "../Components/SortOrder.jsx";
+import { SortOrder } from "./SortOrder.jsx";
 
 export const DashBoardPage = () => {
   const [tasks, setTasks] = useState([]);

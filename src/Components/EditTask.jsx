@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import supabase from "../Supabase/SupabaseClient";
-import { Loading } from "../Components/Loading";
+import { Loading } from "./Loading";
 
 export function EditPage() {
   const { taskId } = useParams(); // Get taskId from URL

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../Supabase/SupabaseClient";
+import logo from "../assets/logo.png";
 
 export function LoginPage() {
   const [email, setEmail] = useState("");
@@ -32,9 +33,13 @@ export function LoginPage() {
   return (
     <div className=" flex items-center justify-center min-h-screen">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-center text-blue-600 text-2xl font-bold mb-6">
-
+        <div className="flex justify-center item-center ">
+          <img src={logo} alt="" width={45} height={45} />
+        </div>
+        <h1 className="text-blue-600 text-center text-2xl font-bold mb-10 ">
+          GoalPlan
         </h1>
+
         <h2 className="text-center text-gray-700 text-lg font-semibold mb-6">
           Sign in to your account
         </h2>

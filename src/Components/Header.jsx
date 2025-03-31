@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import supabase from "../Supabase/SupabaseClient";
 import React, { useState } from "react";
-import { Notification } from "../Components/Notification";
+import { Notification } from "./Notification";
 
 export function Header() {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -33,7 +33,7 @@ export function Header() {
           />
         </svg>
       </div>
-      <h1 className="text-lg font-bold">Todo-List</h1>
+      <h1 className="text-lg font-bold">GoalPlan</h1>
       <div className="ml-auto mr-4">
         <Notification />
       </div>

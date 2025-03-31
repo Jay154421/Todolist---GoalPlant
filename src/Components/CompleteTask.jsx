@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import supabase from "../Supabase/SupabaseClient";
-import { Header } from "./Header";
-import { Card } from "../Components/Card.jsx";
+import supabase from "../Supabase/SupabaseClient.js";
+import { Header } from "./Header.jsx";
+import { Card } from "./Card.jsx";
 
 export const CompleteTaskPage = () => {
   const [completedTasks, setCompletedTasks] = useState([]);
