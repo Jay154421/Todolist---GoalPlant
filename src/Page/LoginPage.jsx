@@ -33,7 +33,7 @@ export function LoginPage() {
     <div className=" flex items-center justify-center min-h-screen">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h1 className="text-center text-blue-600 text-2xl font-bold mb-6">
-          GoalPlan
+
         </h1>
         <h2 className="text-center text-gray-700 text-lg font-semibold mb-6">
           Sign in to your account

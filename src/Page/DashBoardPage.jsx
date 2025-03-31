@@ -23,6 +23,7 @@ export const DashBoardPage = () => {
           .from("tasks")
           .select("id, title, priority, description, due_date, category")
           .eq("user_id", user.id)
+          .eq("is_completed", false)
           .limit(50);
 
         if (error) throw error;
@@ -64,6 +65,12 @@ export const DashBoardPage = () => {
     navigate(`/edit-task/${taskId}`); // Navigate to the edit page
   };
 
+
+  const handleComplete = async (taskId, isCompleted) => {
+    await supabase.from("tasks").update({ is_completed: isCompleted }).eq("id", taskId);
+    setTasks(tasks.filter((task) => task.id !== taskId));
+  };
+
   if (loading) {
     return (
       <div className="font-roboto">
@@ -102,7 +109,8 @@ export const DashBoardPage = () => {
                 dueDate={task.due_date}
                 category={task.category}
                 onDelete={handleDelete}
-                onEdit={handleEdit} // Pass onEdit to Card
+                onEdit={handleEdit}
+                onComplete={handleComplete}
               />
             ))
           ) : (

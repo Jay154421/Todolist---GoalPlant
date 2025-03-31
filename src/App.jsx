@@ -29,7 +29,7 @@ function App() {
           }
         />
         <Route
-          path="/dashboard/home"
+          path="/"
           element={
             <ProtectedRoute>
               <HomePage />
@@ -38,7 +38,7 @@ function App() {
         />
 
         <Route
-          path="/CompleteTask"
+          path="/complete-task"
           element={
             <ProtectedRoute>
               <CompleteTaskPage />

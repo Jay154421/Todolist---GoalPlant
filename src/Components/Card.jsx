@@ -5,8 +5,10 @@ export const Card = ({
   dueDate,
   category,
   onDelete,
-  onEdit, // Add onEdit prop
+  onEdit,
   id,
+  isCompleted,
+  onComplete,
 }) => {
   const priorityStyles = {
     low: "bg-blue-200 text-blue-800",
@@ -33,10 +35,12 @@ export const Card = ({
   };
 
   return (
-    <div className="bg-white m-2 p-4 rounded-lg shadow-md">
+    <div className="bg-white m-2 p-4 m-4 rounded-lg shadow-md">
       <div className="flex items-center mb-2">
-        <input type="checkbox" className="mr-2" />
-        <h3 className="font-bold text-xl">{title}</h3>
+        <input type="checkbox" className="mr-2"
+          checked={isCompleted}
+          onChange={() => onComplete(id, !isCompleted)} />
+        <h3 className={`font-bold text-xl ${isCompleted ? "line-through text-gray-500" : ""}`}>{title}</h3>
 
         <span
           className={`ml-2 text-xs px-2 py-1 rounded-full ${priorityStyles[priority]}`}

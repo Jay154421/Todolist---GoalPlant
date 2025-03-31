@@ -80,10 +80,10 @@ export function CreateTaskPage() {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option value="work">Work</option>
             <option value="personal">Personal</option>
-            <option value="errands">Errands</option>
-            <option value="other">Other</option>
+            <option value="shopping">Shopping</option>
+            <option value="health">Health</option>
+            <option value="work">Work</option>
           </select>
         </div>
         <div>
