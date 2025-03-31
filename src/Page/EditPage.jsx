@@ -1,23 +1,41 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import supabase from "../Supabase/SupabaseClient";
+import { Loading } from "../Components/Loading";
 
-export function CreateTaskPage() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("work");
-  const [priority, setPriority] = useState("low");
-  const [dueDate, setDueDate] = useState("");
-  const [showCalendar, setShowCalendar] = useState(false);
+export function EditPage() {
+  const { taskId } = useParams(); // Get taskId from URL
+  const [task, setTask] = useState(null);
   const [message, setMessage] = useState("");
+  const [showCalendar, setShowCalendar] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchTask = async () => {
+      const { data, error } = await supabase
+        .from("tasks")
+        .select("*")
+        .eq("id", taskId)
+        .single();
+      if (error) {
+        setMessage(error.message);
+      } else {
+        setTask(data);
+      }
+    };
+    fetchTask();
+  }, [taskId]);
+
+  const handleChange = (e) => {
+    setTask({ ...task, [e.target.name]: e.target.value });
+  };
+
   const handlePriorityChange = (e) => {
-    setPriority(e.target.value);
+    setTask({ ...task, priority: e.target.value });
   };
 
   const handleDateChange = (e) => {
-    setDueDate(e.target.value);
+    setTask({ ...task, due_date: e.target.value });
     setShowCalendar(false);
   };
 
@@ -27,58 +45,64 @@ export function CreateTaskPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    const { error } = await supabase.from("tasks").insert([
-      {
-        user_id: user.id,
-        title,
-        description,
-        category,
-        priority,
-        due_date: dueDate,
-      },
-    ]);
+    const { error } = await supabase
+      .from("tasks")
+      .update({
+        title: task.title,
+        description: task.description,
+        category: task.category,
+        priority: task.priority,
+        due_date: task.due_date,
+      })
+      .eq("id", taskId);
 
     if (error) {
       setMessage(error.message);
     } else {
-      navigate("/dashboard");
+      navigate("/dashboard"); // Navigate back to dashboard after edit
     }
   };
+
+  if (!task) {
+    return <Loading />;
+  }
 
   return (
     <div className="max-w-md mx-auto mt-32 p-6 bg-white shadow-lg rounded-lg">
       {message && <div className="mb-4 text-red-500">{message}</div>}
-      <h2 className="text-xl font-bold mb-4">Add New Task</h2>
+      <h2 className="text-xl font-bold mb-4">Edit Task</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Task Title */}
         <div>
           <label className="block text-sm font-medium">Task</label>
           <input
             type="text"
             className="w-full p-2 border border-gray-300 rounded"
-            placeholder="Task title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={task.title}
+            name="title"
+            onChange={handleChange}
           />
         </div>
+
+        {/* Task Description */}
         <div>
           <label className="block text-sm font-medium">Description</label>
           <textarea
             className="w-full p-2 border border-gray-300 rounded"
-            placeholder="Task description (optional)"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
+            value={task.description}
+            name="description"
+            onChange={handleChange}
+          />
         </div>
+
+        {/* Category */}
         <div>
           <label className="block text-sm font-medium">Category</label>
           <select
             className="w-full p-2 border border-gray-300 rounded"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            value={task.category}
+            name="category"
+            onChange={handleChange}
           >
             <option value="personal">Personal</option>
             <option value="shopping">Shopping</option>
@@ -86,6 +110,8 @@ export function CreateTaskPage() {
             <option value="work">Work</option>
           </select>
         </div>
+
+        {/* Priority */}
         <div>
           <label className="block text-sm font-medium">Priority</label>
           <div className="flex space-x-4 mt-1">
@@ -103,7 +129,7 @@ export function CreateTaskPage() {
                   type="radio"
                   name="priority"
                   value={value}
-                  checked={priority === value}
+                  checked={task.priority === value}
                   onChange={handlePriorityChange}
                 />
                 <span className={`text-sm font-medium ${className}`}>
@@ -113,6 +139,8 @@ export function CreateTaskPage() {
             ))}
           </div>
         </div>
+
+        {/* Due Date */}
         <div>
           <label className="block text-sm font-medium">Due Date</label>
           <div className="relative">
@@ -120,7 +148,7 @@ export function CreateTaskPage() {
               type="text"
               className="w-full p-2 border border-gray-300 rounded pl-10"
               placeholder="Select a date"
-              value={dueDate}
+              value={task.due_date}
               onClick={toggleCalendar}
               readOnly
             />
@@ -139,6 +167,8 @@ export function CreateTaskPage() {
             )}
           </div>
         </div>
+
+        {/* Submit Button */}
         <div className="flex justify-between mt-4">
           <Link to="/dashboard">
             <button className="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-100">
@@ -149,7 +179,7 @@ export function CreateTaskPage() {
             type="submit"
             className="px-4 py-2 bg-[#007bff] text-white rounded hover:bg-[#82b8f3]"
           >
-            Add Task
+            Edit Task
           </button>
         </div>
       </form>
