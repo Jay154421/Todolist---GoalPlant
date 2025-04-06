@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../Supabase/SupabaseClient";
 import logo from "../assets/logo.png";
+import "../css/App.css";
 
 export function LoginPage() {
   const [email, setEmail] = useState("");
@@ -31,32 +32,21 @@ export function LoginPage() {
   };
 
   return (
-    <div className=" flex items-center justify-center min-h-screen">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <div className="flex justify-center item-center ">
-          <img src={logo} alt="" width={45} height={45} />
+    <div className="login-container">
+      <div className="login-box">
+        <div className="logo-container">
+          <img src={logo} alt="Logo" width={45} height={45} />
         </div>
-        <h1 className="text-blue-600 text-center text-2xl font-bold mb-10 ">
-          GoalPlan
-        </h1>
+        <h1 className="app-title">GoalPlan</h1>
 
-        <h2 className="text-center text-gray-700 text-lg font-semibold mb-6">
-          Sign in to your account
-        </h2>
+        <h2 className="login-heading">Sign in to your account</h2>
 
         <form onSubmit={handleSubmit}>
-          {message && (
-            <div className="bg-red-500 text-white p-2 rounded-lg w-full text-center mb-4">
-              {message}
-            </div>
-          )}
+          {message && <div className="error-message">{message}</div>}
 
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2" htmlFor="email">
-              Email
-            </label>
+          <div className="input-group">
+            <label htmlFor="email">Email</label>
             <input
-              className="w-full p-2 rounded border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -66,12 +56,9 @@ export function LoginPage() {
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2" htmlFor="password">
-              Password
-            </label>
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
             <input
-              className="w-full p-2 rounded border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -81,21 +68,16 @@ export function LoginPage() {
             />
           </div>
 
-          <div className="flex items-center justify-between mb-6">
-            <a className="text-blue-500 hover:underline" href="#">
-              Forgot Password?
-            </a>
+          <div className="forgot-password">
+            <a href="#">Forgot Password?</a>
           </div>
 
-          <button className="w-full bg-blue-600 text-white py-2 rounded mb-4 hover:bg-blue-500 transition duration-300">
+          <button type="submit" className="login-button">
             Sign In
           </button>
 
-          <div className="text-center text-gray-700">
-            New user?{" "}
-            <Link className="text-blue-500 hover:underline" to="/signup">
-              Register
-            </Link>
+          <div className="signup-link">
+            New user? <Link to="/signup">Register</Link>
           </div>
         </form>
       </div>

@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import { LoginPage } from "./Components/Login";
 import { SignupPage } from "./Components/Signup";
-import { HomePage } from "./Components/Home";
 import { DashBoardPage } from "./Components/DashBoard";
 import { ProtectedRoute } from "./Supabase/ProtectedRoute";
 import { CreateTaskPage } from "./Components/CreateTask";
@@ -21,14 +20,6 @@ function App() {
           element={
             <ProtectedRoute>
               <DashBoardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/home"
-          element={
-            <ProtectedRoute>
-              <HomePage />
             </ProtectedRoute>
           }
         />

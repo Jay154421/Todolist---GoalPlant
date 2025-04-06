@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import supabase from "../Supabase/SupabaseClient";
 import logo from "../assets/logo.png";
+import "../css/App.css";
 
 export function SignupPage() {
   const [email, setEmail] = useState("");
@@ -34,32 +35,20 @@ export function SignupPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-
-        <div className="flex justify-center item-center ">
-          <img src={logo} alt="" width={45} height={45} />
+    <div className="signup-container">
+      <div className="signup-box">
+        <div className="logo-container">
+          <img src={logo} alt="Logo" width={45} height={45} />
         </div>
-        <h1 className="text-blue-600 text-center text-2xl font-bold  mb-10">
-          GoalPlan
-        </h1>
-        <h2 className="text-center text-gray-700 text-lg font-semibold mb-6">
-          Create an account
-        </h2>
+        <h1 className="app-title">GoalPlan</h1>
+        <h2 className="signup-heading">Create an account</h2>
 
-        {message && (
-          <div className="bg-green-500 text-white p-2 rounded-lg w-full text-center mb-4">
-            {message}
-          </div>
-        )}
+        {message && <div className="success-message">{message}</div>}
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2" htmlFor="email">
-              Email
-            </label>
+          <div className="input-group">
+            <label htmlFor="email">Email</label>
             <input
-              className="w-full p-2 rounded border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -70,12 +59,9 @@ export function SignupPage() {
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2" htmlFor="password">
-              Password
-            </label>
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
             <input
-              className="w-full p-2 rounded border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -86,15 +72,12 @@ export function SignupPage() {
             />
           </div>
 
-          <button className="w-full bg-blue-600 text-white py-2 rounded mb-4 hover:bg-blue-500 transition duration-300">
+          <button type="submit" className="signup-button">
             Sign Up
           </button>
 
-          <div className="text-center text-gray-700">
-            Already have an account?{" "}
-            <Link className="text-blue-500 hover:underline" to="/">
-              Login
-            </Link>
+          <div className="login-link">
+            Already have an account? <Link to="/">Login</Link>
           </div>
         </form>
       </div>

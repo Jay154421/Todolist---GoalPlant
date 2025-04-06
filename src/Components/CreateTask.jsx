@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../Supabase/SupabaseClient";
+import "../css/App.css"; // Import the CSS file
 
 export function CreateTaskPage() {
   const [title, setTitle] = useState("");
@@ -50,45 +51,45 @@ export function CreateTaskPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-32 p-6 bg-white shadow-lg rounded-lg">
-      {message && <div className="mb-4 text-red-500">{message}</div>}
-      <h2 className="text-xl font-bold mb-4">Add New Task</h2>
+    <div className="create-task-container">
+      {message && <div className="message">{message}</div>}
+      <h2 className="page-title">Add New Task</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium">Task</label>
+          <label className="label">Task</label>
           <input
             type="text"
-            className="w-full p-2 border border-gray-300 rounded"
+            className="form-input"
             placeholder="Task title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Description</label>
+          <label className="label">Description</label>
           <textarea
-            className="w-full p-2 border border-gray-300 rounded"
+            className="form-textarea"
             placeholder="Task description (optional)"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
         </div>
         <div>
-          <label className="block text-sm font-medium">Category</label>
+          <label className="label">Category</label>
           <select
-            className="w-full p-2 border border-gray-300 rounded"
+            className="form-select"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
             <option value="personal">Personal</option>
-            <option value="shopping">Shopping</option>
-            <option value="health">Health</option>
+            {/* <option value="health">Health</option> */}
             <option value="work">Work</option>
+            <option value="school">School</option>
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium">Priority</label>
-          <div className="flex space-x-4 mt-1">
+          <label className="label">Priority</label>
+          <div className="priority-options">
             {[
               { label: "Low", value: "low" },
               {
@@ -114,41 +115,30 @@ export function CreateTaskPage() {
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium">Due Date</label>
-          <div className="relative">
+          <label className="label">Due Date</label>
+          <div className="due-date-wrapper">
             <input
               type="text"
-              className="w-full p-2 border border-gray-300 rounded pl-10"
+              className="due-date-input"
               placeholder="Select a date"
               value={dueDate}
               onClick={toggleCalendar}
               readOnly
             />
-            <span
-              className="absolute left-3 top-2 text-gray-500 cursor-pointer"
-              onClick={toggleCalendar}
-            >
-              📅
-            </span>
             {showCalendar && (
               <input
                 type="date"
                 onChange={handleDateChange}
-                className="absolute top-full left-0 bg-white border border-gray-300 shadow-md p-2 rounded"
+                className="due-date-calendar"
               />
             )}
           </div>
         </div>
-        <div className="flex justify-between mt-4">
+        <div className="button-container">
           <Link to="/dashboard">
-            <button className="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-100">
-              Cancel
-            </button>
+            <button className="cancel-button">Cancel</button>
           </Link>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-[#007bff] text-white rounded hover:bg-[#82b8f3]"
-          >
+          <button type="submit" className="submit-button">
             Add Task
           </button>
         </div>

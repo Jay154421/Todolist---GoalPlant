@@ -2,13 +2,15 @@ import { useNavigate } from "react-router-dom";
 import supabase from "../Supabase/SupabaseClient";
 import React, { useState } from "react";
 import { Notification } from "./Notification";
+import "../css/App.css";
+import Switch from "./Switch";
+import LanguageSelector from "./LanguageSelector"; // ✅ NEW IMPORT
 
 export function Header() {
   const [menuVisible, setMenuVisible] = useState(false);
+  const [language, setLanguage] = useState("en");
 
-  const toggleMenu = () => {
-    setMenuVisible(!menuVisible);
-  };
+  const toggleMenu = () => setMenuVisible(!menuVisible);
 
   const navigate = useNavigate();
 
@@ -19,8 +21,8 @@ export function Header() {
   };
 
   return (
-    <header className="bg-blue-500 text-white p-4 flex items-center relative">
-      <div className="fas fa-bars mr-4 cursor-pointer" onClick={toggleMenu}>
+    <header className="header">
+      <div className="menu-icon" onClick={toggleMenu}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -33,30 +35,30 @@ export function Header() {
           />
         </svg>
       </div>
-      <h1 className="text-lg font-bold">GoalPlan</h1>
-      <div className="ml-auto mr-4">
+
+      <h1 className="logo">GoalPlan</h1>
+
+      <div className="notification">
         <Notification />
       </div>
 
-      <nav
-        id="menu"
-        className={`absolute top-full left-0 w-full bg-white shadow-lg ${menuVisible ? "" : "hidden"
-          }`}
-      >
-        <ul className="flex flex-col ">
-          <li className="p-4 border-b border-gray-200 hover:bg-gray-200">
-            <a href="/Dashboard" className="text-gray-800">
-              Task
-            </a>
-          </li>
-          <li className="p-4 border-b border-gray-200 hover:bg-gray-200">
-            <a href="/complete-task" className="text-gray-800">
-              Complete Task
-            </a>
-          </li>
+      <div className="switch-box">
+        <Switch />
+      </div>
 
-          <li className="p-4 hover:bg-gray-200">
-            <button className="text-gray-800 cursor-pointer" onClick={signOut}>
+      {/* 🌐 Language Selector */}
+      <LanguageSelector language={language} onSelectLanguage={setLanguage} />
+
+      <nav className={`menu ${menuVisible ? "show" : ""}`}>
+        <ul>
+          <li>
+            <a href="/Dashboard">Task</a>
+          </li>
+          <li>
+            <a href="/complete-task">Complete Task</a>
+          </li>
+          <li>
+            <button className="button-logout" onClick={signOut}>
               Logout
             </button>
           </li>
