@@ -5,6 +5,7 @@ import { Header } from "./Header.jsx";
 import { Card } from "./Card.jsx";
 import { Link } from "react-router-dom";
 import { SortOrder } from "./SortOrder.jsx";
+import { BulkAction } from "./BulkAction.jsx"; // Import the BulkAction component
 import "../css/App.css";
 
 export const DashBoardPage = () => {
@@ -12,6 +13,7 @@ export const DashBoardPage = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
+  const [markedTasks, setMarkedTasks] = useState([]); // Track marked tasks
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,13 +41,38 @@ export const DashBoardPage = () => {
     fetchTasks();
   }, []);
 
-  const handleDelete = async (taskId) => {
+  // Handle marking/unmarking a task
+  const handleMarkTask = (taskId) => {
+    setMarkedTasks(
+      (prev) =>
+        prev.includes(taskId)
+          ? prev.filter((id) => id !== taskId) // Unmark task
+          : [...prev, taskId] // Mark task
+    );
+  };
+
+  // Handle Mark All functionality
+  const handleMarkAll = () => {
+    if (markedTasks.length === tasks.length) {
+      setMarkedTasks([]); // Unmark all
+    } else {
+      setMarkedTasks(tasks.map((task) => task.id)); // Mark all
+    }
+  };
+
+  // Handle Delete All functionality
+  const handleDeleteAll = async () => {
     try {
-      const { error } = await supabase.from("tasks").delete().eq("id", taskId);
+      const { error } = await supabase
+        .from("tasks")
+        .delete()
+        .in("id", markedTasks); // Delete marked tasks
+
       if (error) throw error;
-      setTasks(tasks.filter((task) => task.id !== taskId));
+      setTasks(tasks.filter((task) => !markedTasks.includes(task.id))); // Remove deleted tasks from state
+      setMarkedTasks([]); // Clear marked tasks
     } catch (error) {
-      console.error("Error deleting task:", error.message);
+      console.error("Error deleting tasks:", error.message);
     }
   };
 
@@ -93,6 +120,12 @@ export const DashBoardPage = () => {
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
           />
+
+          <BulkAction
+            onMarkAll={handleMarkAll}
+            onDeleteAll={handleDeleteAll}
+            isMarked={markedTasks.length === tasks.length}
+          />
         </div>
 
         <div className="task-list">
@@ -106,9 +139,11 @@ export const DashBoardPage = () => {
                 subtitle={task.description}
                 dueDate={task.due_date}
                 category={task.category}
-                onDelete={handleDelete}
+                onDelete={handleDeleteAll}
                 onEdit={handleEdit}
                 onComplete={handleComplete}
+                onMarkTask={handleMarkTask} // Pass mark/unmark function to Card
+                isMarked={markedTasks.includes(task.id)} // Pass marked status to Card
               />
             ))
           ) : (
@@ -119,9 +154,7 @@ export const DashBoardPage = () => {
 
       <div className="add-task-button">
         <Link to="/create-task">
-          <button className="add-task-icon">
-            +
-          </button>
+          <button className="add-task-icon">+</button>
         </Link>
       </div>
     </div>

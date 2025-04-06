@@ -1,3 +1,4 @@
+// src/components/Card.jsx
 import "../css/App.css";
 import { useTranslation } from "react-i18next";
 
@@ -12,6 +13,8 @@ export const Card = ({
   id,
   isCompleted,
   onComplete,
+  onMarkTask,
+  isMarked, // New prop for conditional styling
 }) => {
   const { t } = useTranslation();
   const isOverdue = new Date(dueDate) < new Date();
@@ -25,8 +28,12 @@ export const Card = ({
     }
   };
 
+  const handleMark = () => {
+    onMarkTask(id); // Mark/unmark the task when clicked
+  };
+
   return (
-    <div className="card">
+    <div className={`card ${isMarked ? "marked" : ""}`} onClick={handleMark}>
       <div className="card-header">
         <input
           type="checkbox"
@@ -105,22 +112,22 @@ export const Card = ({
           {" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={18}
-            height={18}
+            width={16}
+            height={16}
             viewBox="0 0 24 24"
           >
             <g
               fill="none"
-              stroke="currentColor"
+              stroke="#676e77"
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={1}
+              strokeWidth={2}
             >
               <path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm12-4v4M8 3v4m-4 4h16"></path>
               <path d="M11 16a1 1 0 1 0 2 0a1 1 0 1 0-2 0"></path>
             </g>
-          </svg>{" "}
-          {t("due")}: {dueDate}
+          </svg>
+          Due: {dueDate}
         </p>
       )}
     </div>

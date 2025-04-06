@@ -439,7 +439,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 4px;
-  border-bottom: 1px solid #e5e7eb;
+  background-color: var(--secondary-color);
 }
 
 /* Category Filters */
@@ -674,12 +674,18 @@ body {
   margin: 16px;
   padding: 16px;
   border-radius: 8px;
+
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
 }
 
 .card:hover {
   transform: scale(1.02);
+}
+
+.card.marked {
+  border: 1px solid;
+  border-color: var(--primary-color); /* Blue border when marked */
 }
 
 /* Card Header */
@@ -1397,3 +1403,46 @@ button:hover {
   background-color: #f0f0f0;
 }
 /* End Language Icon */
+/* BulkAction */
+
+.bulk-action-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.2rem;
+  flex-wrap: wrap;
+}
+
+.bulk-action-button {
+  padding: 0.5rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 200px;
+  text-align: center;
+  transition: background 0.3s ease, transform 0.2s ease;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bulk-action-button.mark {
+  background-color: var(--primary-color);
+}
+
+.bulk-action-button.mark:hover {
+  background-color: #116ccc;
+  transform: translateY(-1px);
+}
+
+.bulk-action-button.delete {
+  background-color: #dc3545;
+}
+
+.bulk-action-button.delete:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+}
+
+/* End BulkAction Style */

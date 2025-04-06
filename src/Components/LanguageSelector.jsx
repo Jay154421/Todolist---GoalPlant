@@ -21,8 +21,6 @@ const LanguageSelector = () => {
     setIsDropdownOpen(false);
   };
 
-  console.log("Current language:", i18n.language); // Debugging line
-
   return (
     <div className="language-dropdown">
       <button className="language-button" onClick={toggleDropdown}>
