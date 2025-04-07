@@ -16,6 +16,8 @@ export const DashBoardPage = () => {
   const [markedTasks, setMarkedTasks] = useState([]); // Track marked tasks
   const navigate = useNavigate();
 
+
+
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -73,6 +75,16 @@ export const DashBoardPage = () => {
       setMarkedTasks([]); // Clear marked tasks
     } catch (error) {
       console.error("Error deleting tasks:", error.message);
+    }
+  };
+
+  const handleDelete = async (taskId) => {
+    try {
+      const { error } = await supabase.from("tasks").delete().eq("id", taskId);
+      if (error) throw error;
+      setTasks(tasks.filter((task) => task.id !== taskId));
+    } catch (error) {
+      console.error("Error deleting task:", error.message);
     }
   };
 
@@ -139,7 +151,7 @@ export const DashBoardPage = () => {
                 subtitle={task.description}
                 dueDate={task.due_date}
                 category={task.category}
-                onDelete={handleDeleteAll}
+                onDelete={handleDelete}
                 onEdit={handleEdit}
                 onComplete={handleComplete}
                 onMarkTask={handleMarkTask} // Pass mark/unmark function to Card

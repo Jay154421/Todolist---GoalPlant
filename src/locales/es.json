@@ -1,6 +1,16 @@
 {
-    "overdue": "Atrasado",
-    "due": "Vence",
-    "deleteConfirm": "¿Está seguro de que desea eliminar esta tarjeta?"
-  }
-  
+  "overdue": "Atrasado",
+  "due": "Vence",
+  "deleteConfirm": "¿Está seguro de que desea eliminar esta tarjeta?",
+  "All": "Todos",
+  "personal": "Personal",
+  "work": "Trabajo",
+  "school": "Escuela",
+  "Sort by Task": "Ordenar por tarea",
+  "low": "Bajo",
+  "medium": "Medio",
+  "high": "Alto",
+  "markAll": "Marcar todo",
+  "unmarkAll": "Desmarcar todo",
+  "deleteAll": "Eliminar todo"
+}

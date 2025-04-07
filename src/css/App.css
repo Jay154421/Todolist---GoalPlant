@@ -32,7 +32,8 @@ body {
 .container-load {
   display: flex;
   justify-content: center;
-  align-items: center; /* Changed from align-self to align-items */
+  align-items: center;
+  /* Changed from align-self to align-items */
   margin-top: 350px;
 }
 
@@ -43,8 +44,10 @@ body {
   width: 44px;
   height: 44px;
   position: relative;
-  display: inline-block; /* Added to make it block-level */
-  vertical-align: middle; /* Added to vertically center the loader */
+  display: inline-block;
+  /* Added to make it block-level */
+  vertical-align: middle;
+  /* Added to vertically center the loader */
 }
 
 /* ... rest of the CSS remains unchanged ... */
@@ -60,8 +63,7 @@ body {
   top: 37px;
   left: 19px;
   transform: translate(-18px, -18px);
-  animation: dotRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
-    infinite;
+  animation: dotRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
 }
 
 .loader svg {
@@ -83,8 +85,7 @@ body {
 .loader svg polygon {
   stroke-dasharray: 145 76 145 76;
   stroke-dashoffset: 0;
-  animation: pathTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
-    infinite;
+  animation: pathTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
 }
 
 .loader svg rect {
@@ -96,8 +97,7 @@ body {
 .loader svg circle {
   stroke-dasharray: 150 50 150 50;
   stroke-dashoffset: 75;
-  animation: pathCircle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
-    infinite;
+  animation: pathCircle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
 }
 
 .loader.triangle {
@@ -107,8 +107,7 @@ body {
 .loader.triangle:before {
   left: 21px;
   transform: translate(-10px, -18px);
-  animation: dotTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
-    infinite;
+  animation: dotTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
 }
 
 @keyframes pathTriangle {
@@ -197,6 +196,7 @@ body {
   display: inline-block;
   margin: 0 16px;
 }
+
 /* =============================== */
 /* Center the login page */
 .login-container {
@@ -323,6 +323,7 @@ body {
   border-radius: 5px;
   margin-bottom: 15px;
 }
+
 /* End login style */
 /* Center the signup page */
 .signup-container {
@@ -432,6 +433,7 @@ body {
 .login-link a:hover {
   text-decoration: underline;
 }
+
 /* end signup style */
 /* Sort container */
 .sort-container {
@@ -571,6 +573,7 @@ body {
 .dropdown-item.selected {
   background-color: #e5e7eb;
 }
+
 /* End sortOrder style */
 /* Header Styling */
 .header {
@@ -594,6 +597,10 @@ body {
 
 .menu-icon:hover svg {
   transform: scale(1.1);
+}
+
+.side-right {
+  display: flex;
 }
 
 .button-logout {
@@ -667,6 +674,7 @@ body {
 .menu button:hover {
   color: #2563eb;
 }
+
 /* End header style */
 /* Card Container */
 .card {
@@ -685,7 +693,8 @@ body {
 
 .card.marked {
   border: 1px solid;
-  border-color: var(--primary-color); /* Blue border when marked */
+  border-color: var(--primary-color);
+  /* Blue border when marked */
 }
 
 /* Card Header */
@@ -779,14 +788,14 @@ body {
 
 /* Subtitle */
 .card-subtitle {
-  font-size: 0.875rem;
-  color: #676e77;
+  font-size: 1rem;
+  color: #2a2a2a;
 }
 
 /* Due Date */
 .due-date,
 .overdue {
-  font-size: 0.75rem;
+  font-size: .9rem;
   margin-top: 8px;
   display: flex;
   align-items: center;
@@ -794,13 +803,14 @@ body {
 }
 
 .due-date {
-  color: #676e77;
+  color: #2a2a2a;
 }
 
 .overdue {
   color: #dc2626;
   font-weight: bold;
 }
+
 /* End Card style */
 /* Container */
 .dashboard-container {
@@ -872,6 +882,7 @@ body {
 .add-task-icon:hover {
   background-color: #2563eb;
 }
+
 /* End Dashboard style */
 /* Container for the form */
 .create-task-container {
@@ -1001,6 +1012,7 @@ body {
 .submit-button:hover {
   background-color: #82b8f3;
 }
+
 /* End CreateTask Style */
 /* Container */
 .edit-container {
@@ -1139,11 +1151,12 @@ button:hover {
 .submit-button:hover {
   background-color: #82b8f3;
 }
+
 /* End Edit Task Style */
 /* Notification Button */
 /* Notification Button */
 .notification-container {
-  position: fixed;
+  position: absolute;
   top: 13px;
   right: 1rem;
   z-index: 50;
@@ -1257,11 +1270,14 @@ button:hover {
 /* Theme Switch */
 /* The switch - the box around the slider */
 .switch {
-  font-size: 14px; /* Reduced font size */
+  font-size: 14px;
+  /* Reduced font size */
   position: relative;
   display: inline-block;
-  width: 3.2em; /* Reduced width */
-  height: 1.8em; /* Reduced height */
+  width: 3.2em;
+  /* Reduced width */
+  height: 1.8em;
+  /* Reduced height */
   border-radius: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -1290,22 +1306,28 @@ button:hover {
 .slider:before {
   position: absolute;
   content: "";
-  height: 1em; /* Adjusted height */
-  width: 1em; /* Adjusted width */
-  border-radius: 50%; /* Make it more circular */
-  left: 0.4em; /* Adjusted for smaller size */
-  bottom: 0.4em; /* Adjusted for smaller size */
+  height: 1em;
+  /* Adjusted height */
+  width: 1em;
+  /* Adjusted width */
+  border-radius: 50%;
+  /* Make it more circular */
+  left: 0.4em;
+  /* Adjusted for smaller size */
+  bottom: 0.4em;
+  /* Adjusted for smaller size */
   transition: 0.4s;
   transition-timing-function: cubic-bezier(0.81, -0.04, 0.38, 1.5);
   box-shadow: inset 8px -4px 0px 0px #fff;
 }
 
-.switch input:checked + .slider {
+.switch input:checked+.slider {
   background-color: #00a6ff;
 }
 
-.switch input:checked + .slider:before {
-  transform: translateX(1.4em); /* Adjusted to match new size */
+.switch input:checked+.slider:before {
+  transform: translateX(1.4em);
+  /* Adjusted to match new size */
   box-shadow: inset 15px -4px 0px 15px #ffcf48;
 }
 
@@ -1313,40 +1335,51 @@ button:hover {
   background-color: #fff;
   border-radius: 50%;
   position: absolute;
-  width: 4px; /* Reduced size of the star */
-  height: 4px; /* Reduced size of the star */
+  width: 4px;
+  /* Reduced size of the star */
+  height: 4px;
+  /* Reduced size of the star */
   transition: all 0.4s;
 }
 
 .star_1 {
-  left: 2em; /* Adjusted position */
-  top: 0.4em; /* Adjusted position */
+  left: 2em;
+  /* Adjusted position */
+  top: 0.4em;
+  /* Adjusted position */
 }
 
 .star_2 {
-  left: 1.7em; /* Adjusted position */
-  top: 1em; /* Adjusted position */
+  left: 1.7em;
+  /* Adjusted position */
+  top: 1em;
+  /* Adjusted position */
 }
 
 .star_3 {
-  left: 2.5em; /* Adjusted position */
-  top: 0.7em; /* Adjusted position */
+  left: 2.5em;
+  /* Adjusted position */
+  top: 0.7em;
+  /* Adjusted position */
 }
 
-.switch input:checked ~ .slider .star {
+.switch input:checked~.slider .star {
   opacity: 0;
 }
 
 .cloud {
-  width: 3em; /* Adjusted cloud width */
+  width: 3em;
+  /* Adjusted cloud width */
   position: absolute;
-  bottom: -1.2em; /* Adjusted bottom */
-  left: -1em; /* Adjusted left position */
+  bottom: -1.2em;
+  /* Adjusted bottom */
+  left: -1em;
+  /* Adjusted left position */
   opacity: 0;
   transition: all 0.4s;
 }
 
-.switch input:checked ~ .slider .cloud {
+.switch input:checked~.slider .cloud {
   opacity: 1;
 }
 
@@ -1376,7 +1409,11 @@ button:hover {
   font-size: 1rem;
   position: absolute;
   top: -14px;
-  left: 141px;
+  left: 54px;
+}
+
+.language-button:hover {
+  background-color: #2563eb;
 }
 
 .dropdown-menu {
@@ -1402,12 +1439,13 @@ button:hover {
 .dropdown-item:hover {
   background-color: #f0f0f0;
 }
+
 /* End Language Icon */
 /* BulkAction */
 
 .bulk-action-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   padding: 0.2rem;
   flex-wrap: wrap;
 }
@@ -1420,7 +1458,7 @@ button:hover {
   border-radius: 8px;
   cursor: pointer;
   width: 100%;
-  max-width: 200px;
+  max-width: 169px;
   text-align: center;
   transition: background 0.3s ease, transform 0.2s ease;
   color: #ffffff;

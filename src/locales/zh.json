@@ -1,5 +1,16 @@
 {
     "overdue": "逾期",
     "due": "到期",
-    "deleteConfirm": "您确定要删除此卡片吗？"
+    "deleteConfirm": "您确定要删除此卡片吗？",
+    "All": "所有",
+    "personal": "个人",
+    "work": "工作",
+    "school": "学校",
+    "Sort by Task": "按任务排序",
+    "low": "低",
+    "medium": "中",
+    "high": "高",
+    "markAll": "全部标记",
+    "unmarkAll": "取消全选",
+    "deleteAll": "删除所有"
 }

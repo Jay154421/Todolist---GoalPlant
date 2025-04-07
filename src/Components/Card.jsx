@@ -44,8 +44,9 @@ export const Card = ({
           {title}
         </h3>
 
-        <span className={`priority-tag ${priority}`}>{priority}</span>
-        <span className={`category-tag ${category}`}>{category}</span>
+        <span className={`priority-tag ${priority}`}> {t(priority)}</span>
+        <span className={`category-tag ${category}`}>{t(category)}</span>
+
         <i className="edit-icon" onClick={() => onEdit(id)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +69,6 @@ export const Card = ({
 
         <i className="delete-icon" onClick={handleDelete}>
           <svg
-            onClick={handleDelete}
             className="cursor-pointer"
             xmlns="http://www.w3.org/2000/svg"
             width={18}
@@ -94,8 +94,8 @@ export const Card = ({
           {" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={16}
-            height={16}
+            width={20}
+            height={20}
             viewBox="0 0 16 16"
           >
             <path
@@ -112,8 +112,8 @@ export const Card = ({
           {" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={16}
-            height={16}
+            width={20}
+            height={20}
             viewBox="0 0 24 24"
           >
             <g
@@ -127,7 +127,7 @@ export const Card = ({
               <path d="M11 16a1 1 0 1 0 2 0a1 1 0 1 0-2 0"></path>
             </g>
           </svg>
-          Due: {dueDate}
+          {t("due")}: {dueDate}
         </p>
       )}
     </div>

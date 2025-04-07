@@ -7,6 +7,7 @@ import { CreateTaskPage } from "./Components/CreateTask";
 import { CompleteTaskPage } from "./Components/CompleteTask";
 import "./css/App.css";
 import { EditPage } from "./Components/EditTask";
+import { TaskOverview } from "./Components/TaskOverview";
 
 function App() {
   return (
@@ -32,6 +33,16 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/task-overview"
+          element={
+            <ProtectedRoute>
+              <TaskOverview />
+            </ProtectedRoute>
+          }
+        />
+
 
         <Route
           path="/create-task"

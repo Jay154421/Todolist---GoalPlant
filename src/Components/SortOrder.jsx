@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next"; // Import the useTranslation hook
 import "../css/App.css";
 
 export const SortOrder = ({
@@ -8,6 +9,7 @@ export const SortOrder = ({
   setSelectedCategory,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { t } = useTranslation(); // Initialize the useTranslation hook
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -29,11 +31,10 @@ export const SortOrder = ({
             onClick={() =>
               setSelectedCategory(category === "All" ? null : category)
             }
-            className={`category-button ${category} ${
-              selectedCategory === category ? "selected" : ""
-            }`}
+            className={`category-button ${category} ${selectedCategory === category ? "selected" : ""
+              }`}
           >
-            {category}
+            {t(category)} {/* Translate category names */}
           </button>
         ))}
       </div>
@@ -56,22 +57,20 @@ export const SortOrder = ({
 
         {isDropdownOpen && (
           <div className="dropdown-menu-sort">
-            <div className="dropdown-header">Sort by Task</div>
+            <div className="dropdown-header">{t('Sort by Task')}</div> {/* Translate header */}
             <button
               onClick={() => handleSort("asc")}
-              className={`dropdown-item ${
-                sortOrder === "asc" ? "selected" : ""
-              }`}
+              className={`dropdown-item ${sortOrder === "asc" ? "selected" : ""
+                }`}
             >
-              A-Z
+              {t("A-Z")} {/* Translate text */}
             </button>
             <button
               onClick={() => handleSort("desc")}
-              className={`dropdown-item ${
-                sortOrder === "desc" ? "selected" : ""
-              }`}
+              className={`dropdown-item ${sortOrder === "desc" ? "selected" : ""
+                }`}
             >
-              Z-A
+              {t("Z-A")} {/* Translate text */}
             </button>
           </div>
         )}

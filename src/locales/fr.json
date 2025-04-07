@@ -1,6 +1,16 @@
 {
-    "due": "À rendre",
-    "overdue": "En retard",
-    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette carte ?"
-  }
-  
+  "due": "À rendre",
+  "overdue": "En retard",
+  "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette carte ?",
+  "All": "Tout",
+  "personal": "Personnel",
+  "work": "Travail",
+  "school": "École",
+  "Sort by Task": "Trier par tâche",
+  "low": "Bas",
+  "medium": "Moyenne",
+  "high": "Élevé",
+  "markAll": "Tout marquer",
+  "unmarkAll": "Tout décocher",
+  "deleteAll": "Tout supprimer"
+}

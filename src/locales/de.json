@@ -1,5 +1,16 @@
 {
     "overdue": "Überfällig",
     "due": "Fällig",
-    "deleteConfirm": "Möchten Sie diese Karte wirklich löschen?"
+    "deleteConfirm": "Möchten Sie diese Karte wirklich löschen?",
+    "All": "Alle",
+    "personal": "Persönlich",
+    "work": "Arbeit",
+    "school": "Schule",
+    "Sort by Task": "Sortieren nach Aufgabe",
+    "low": "Niedrig",
+    "medium": "Mittel",
+    "high": "Hoch",
+    "markAll": "Alle markieren",
+    "unmarkAll": "Alle abwählen",
+    "deleteAll": "Alle löschen"
 }

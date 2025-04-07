@@ -38,10 +38,6 @@ export function Header() {
 
       <h1 className="logo">GoalPlan</h1>
 
-      <div className="notification">
-        <Notification />
-      </div>
-
       <div className="switch-box">
         <Switch />
       </div>
@@ -49,13 +45,20 @@ export function Header() {
       {/* 🌐 Language Selector */}
       <LanguageSelector language={language} onSelectLanguage={setLanguage} />
 
+      <div className="notification">
+        <Notification />
+      </div>
+
       <nav className={`menu ${menuVisible ? "show" : ""}`}>
         <ul>
           <li>
-            <a href="/Dashboard">Task</a>
+            <a href="/Dashboard">Dashboard</a>
           </li>
           <li>
-            <a href="/complete-task">Complete Task</a>
+            <a href="/task-overview">Task Overview</a>
+          </li>
+          <li>
+            <a href="/complete-task">Archived  Complete Task</a>
           </li>
           <li>
             <button className="button-logout" onClick={signOut}>
