@@ -12,9 +12,11 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
     "@tailwindcss/vite": "^4.0.17",
+    "chart.js": "^4.4.8",
     "date-fns": "^4.1.0",
     "i18next": "^24.2.3",
     "react": "^19.0.0",
+    "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.0.0",
     "react-i18next": "^15.4.1",
     "react-router-dom": "^7.3.0"

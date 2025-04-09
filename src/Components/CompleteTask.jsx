@@ -44,12 +44,22 @@ export const CompleteTaskPage = () => {
 
       if (!error) {
         // Remove the task from the completed tasks list
-        setCompletedTasks(completedTasks.filter(task => task.id !== taskId));
+        setCompletedTasks(completedTasks.filter((task) => task.id !== taskId));
       } else {
         throw error;
       }
     } catch (error) {
       console.error("Error marking task as incomplete:", error.message);
+    }
+  };
+
+  const handleDelete = async (taskId) => {
+    try {
+      const { error } = await supabase.from("tasks").delete().eq("id", taskId);
+      if (error) throw error;
+      setCompletedTasks(completedTasks.filter((task) => task.id !== taskId));
+    } catch (error) {
+      console.error("Error deleting task:", error.message);
     }
   };
 
@@ -72,10 +82,7 @@ export const CompleteTaskPage = () => {
               category={task.category}
               isCompleted={true}
               onComplete={handleUncomplete} // Pass the uncomplete handler
-              onDelete={(id) => {
-                // Optional: Add delete functionality if needed
-                handleUncomplete(id); // Treat delete as uncomplete
-              }}
+              onDelete={handleDelete}
             />
           ))
         ) : (

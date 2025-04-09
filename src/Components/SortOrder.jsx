@@ -7,6 +7,8 @@ export const SortOrder = ({
   setSortOrder,
   selectedCategory,
   setSelectedCategory,
+  cardLayout,
+  setCardLayout,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { t } = useTranslation(); // Initialize the useTranslation hook
@@ -31,8 +33,9 @@ export const SortOrder = ({
             onClick={() =>
               setSelectedCategory(category === "All" ? null : category)
             }
-            className={`category-button ${category} ${selectedCategory === category ? "selected" : ""
-              }`}
+            className={`category-button ${category} ${
+              selectedCategory === category ? "selected" : ""
+            }`}
           >
             {t(category)} {/* Translate category names */}
           </button>
@@ -57,20 +60,40 @@ export const SortOrder = ({
 
         {isDropdownOpen && (
           <div className="dropdown-menu-sort">
-            <div className="dropdown-header">{t('Sort by Task')}</div> {/* Translate header */}
+            <div className="dropdown-header">{t("Sort by Task")}</div>
+            {/* Translate header */}
             <button
               onClick={() => handleSort("asc")}
-              className={`dropdown-item ${sortOrder === "asc" ? "selected" : ""
-                }`}
+              className={`dropdown-item ${
+                sortOrder === "asc" ? "selected" : ""
+              }`}
             >
               {t("A-Z")} {/* Translate text */}
             </button>
             <button
               onClick={() => handleSort("desc")}
-              className={`dropdown-item ${sortOrder === "desc" ? "selected" : ""
-                }`}
+              className={`dropdown-item ${
+                sortOrder === "desc" ? "selected" : ""
+              }`}
             >
               {t("Z-A")} {/* Translate text */}
+            </button>
+            <div className="dropdown-header">{t("Customize Task")}</div>
+            <button
+              className={`dropdown-item ${
+                cardLayout === "layout1" ? "selected" : ""
+              }`}
+              onClick={() => setCardLayout("layout1")}
+            >
+              Layout 1 (Default)
+            </button>
+            <button
+              className={`dropdown-item ${
+                cardLayout === "layout2" ? "selected" : ""
+              }`}
+              onClick={() => setCardLayout("layout2")}
+            >
+              Layout 2
             </button>
           </div>
         )}

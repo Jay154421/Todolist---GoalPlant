@@ -14,9 +14,8 @@ export const DashBoardPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
   const [markedTasks, setMarkedTasks] = useState([]); // Track marked tasks
+  const [cardLayout, setCardLayout] = useState("layout1"); // default to Layout 1
   const navigate = useNavigate();
-
-
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -131,6 +130,8 @@ export const DashBoardPage = () => {
             setSortOrder={setSortOrder}
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
+            cardLayout={cardLayout}
+            setCardLayout={setCardLayout}
           />
 
           <BulkAction
@@ -156,6 +157,7 @@ export const DashBoardPage = () => {
                 onComplete={handleComplete}
                 onMarkTask={handleMarkTask} // Pass mark/unmark function to Card
                 isMarked={markedTasks.includes(task.id)} // Pass marked status to Card
+                layout={cardLayout}
               />
             ))
           ) : (
