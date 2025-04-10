@@ -91,13 +91,13 @@ export function CreateTaskPage() {
           <label className="label">Priority</label>
           <div className="priority-options">
             {[
-              { label: "Low", value: "low" },
+              { label: "Low", value: "low", className: "priority-low" },
               {
                 label: "Medium",
                 value: "medium",
-                className: "text-yellow-500",
+                className: "priority-medium",
               },
-              { label: "High", value: "high", className: "text-red-500" },
+              { label: "High", value: "high", className: "priority-high" },
             ].map(({ label, value, className }) => (
               <label key={value} className="flex items-center space-x-1">
                 <input

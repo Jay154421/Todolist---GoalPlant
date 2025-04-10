@@ -686,9 +686,33 @@ body {
   margin: 16px;
   padding: 16px;
   border-radius: 8px;
-
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.card.dragging {
+  opacity: 0.5;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card.drop-anim {
+  animation: dropMove 300ms ease-out;
+}
+
+@keyframes dropMove {
+  0% {
+    transform: scale(1.03) translateY(0);
+  }
+  50% {
+    transform: scale(1.05) translateY(5px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+.card-details {
+  margin-bottom: 5px;
 }
 
 .card:hover {
@@ -739,12 +763,50 @@ input[type="checkbox"] {
   color: rgb(138, 136, 136);
 }
 
+/* In App.css or the relevant CSS file */
+
+.card-header-3 {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.card-title-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-meta .priority-tag {
+  margin-right: 5px;
+}
+
+.card-meta .category-tag {
+  margin-right: 5px;
+}
+
+.card-meta .overdue,
+.card-meta .due-date {
+  font-size: 12px;
+  color: #a0a0a0;
+}
+
 /* Priority Tags */
 .priority-tag {
   font-size: 0.75rem;
   padding: 4px 8px;
   border-radius: 16px;
   font-weight: bold;
+  margin-right: 10px;
 }
 
 /* Priority Colors */
@@ -813,6 +875,7 @@ input[type="checkbox"] {
 .card-subtitle {
   font-size: 1rem;
   color: var(--text-color);
+  margin-left: 35px;
 }
 
 /* Due Date */
@@ -823,6 +886,25 @@ input[type="checkbox"] {
   display: flex;
   align-items: center;
   gap: 4px;
+  margin-left: 35px;
+}
+
+.due-date-1,
+.overdue-1 {
+  font-size: 0.9rem;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.card-subtitle-1 {
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.overdue-1 {
+  color: #dc2626;
+  font-weight: bold;
 }
 
 .due-date {
@@ -930,6 +1012,18 @@ input[type="checkbox"] {
   margin-bottom: 1rem;
 }
 
+.priority-low {
+  color: green;
+}
+
+.priority-medium {
+  color: orange;
+}
+
+.priority-high {
+  color: red;
+}
+
 /* Form input and textarea */
 .form-input,
 .form-textarea,
@@ -955,6 +1049,7 @@ input[type="checkbox"] {
   font-weight: 500;
   margin-bottom: 0.5rem;
   color: var(--text-color);
+  margin-top: 20px;
 }
 
 /* Priority radio buttons */
@@ -1108,19 +1203,18 @@ select {
 
 .flex span {
   font-size: 0.875rem;
-  color: var(--text-color);
 }
 
 .priority-low {
-  color: #86efac;
+  color: #1e3a8a;
 }
 
 .priority-medium {
-  color: #fdba74;
+  color: #92400e;
 }
 
 .priority-high {
-  color: #f87171;
+  color: #b91c1c;
 }
 
 /* Date Picker */
@@ -1560,3 +1654,4 @@ button:hover {
   justify-content: center;
   margin: 10px;
 }
+/*End Task Overview Container */

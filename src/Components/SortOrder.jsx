@@ -3,8 +3,6 @@ import { useTranslation } from "react-i18next"; // Import the useTranslation hoo
 import "../css/App.css";
 
 export const SortOrder = ({
-  sortOrder,
-  setSortOrder,
   selectedCategory,
   setSelectedCategory,
   cardLayout,
@@ -15,12 +13,6 @@ export const SortOrder = ({
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const handleSort = (order) => {
-    console.log("Sorting by:", order);
-    setSortOrder(order);
-    setIsDropdownOpen(false);
   };
 
   return (
@@ -60,24 +52,6 @@ export const SortOrder = ({
 
         {isDropdownOpen && (
           <div className="dropdown-menu-sort">
-            <div className="dropdown-header">{t("Sort by Task")}</div>
-            {/* Translate header */}
-            <button
-              onClick={() => handleSort("asc")}
-              className={`dropdown-item ${
-                sortOrder === "asc" ? "selected" : ""
-              }`}
-            >
-              {t("A-Z")} {/* Translate text */}
-            </button>
-            <button
-              onClick={() => handleSort("desc")}
-              className={`dropdown-item ${
-                sortOrder === "desc" ? "selected" : ""
-              }`}
-            >
-              {t("Z-A")} {/* Translate text */}
-            </button>
             <div className="dropdown-header">{t("Customize Task")}</div>
             <button
               className={`dropdown-item ${
@@ -94,6 +68,14 @@ export const SortOrder = ({
               onClick={() => setCardLayout("layout2")}
             >
               Layout 2
+            </button>
+            <button
+              className={`dropdown-item ${
+                cardLayout === "layout3" ? "selected" : ""
+              }`}
+              onClick={() => setCardLayout("layout3")}
+            >
+              Layout 3
             </button>
           </div>
         )}

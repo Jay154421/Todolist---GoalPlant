@@ -16,6 +16,10 @@ export const Card = ({
   onMarkTask,
   isMarked, // New prop for conditional styling
   layout,
+  onDragStart,
+  onDragEnd,
+  onDragOver,
+  onDrop,
 }) => {
   const { t } = useTranslation();
   const isOverdue = new Date(dueDate) < new Date();
@@ -34,10 +38,22 @@ export const Card = ({
   };
 
   return (
-    <div className={`card ${isMarked ? "marked" : ""}`} onClick={handleMark}>
+    <div
+      className={`card ${isMarked ? "marked" : ""}`}
+      onClick={handleMark}
+      draggable
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+    >
       {layout === "layout1" ? (
         <>
           {/* Default layout */}
+          <div className="card-details">
+            <span className={`priority-tag ${priority}`}> {t(priority)}</span>
+            <span className={`category-tag ${category}`}>{t(category)}</span>
+          </div>
           <div className="card-header">
             <input
               type="checkbox"
@@ -47,9 +63,6 @@ export const Card = ({
             <h3 className={`card-title ${isCompleted ? "completed" : ""}`}>
               {title}
             </h3>
-
-            <span className={`priority-tag ${priority}`}> {t(priority)}</span>
-            <span className={`category-tag ${category}`}>{t(category)}</span>
 
             <i className="edit-icon" onClick={() => onEdit(id)}>
               <svg
@@ -135,7 +148,7 @@ export const Card = ({
             </p>
           )}
         </>
-      ) : (
+      ) : layout === "layout2" ? (
         <>
           {/* 1st layout */}
           <div className="card-header-1">
@@ -148,9 +161,9 @@ export const Card = ({
               <h3 className={`card-title ${isCompleted ? "completed" : ""}`}>
                 {title}
               </h3>
-              <p className="card-subtitle">{subtitle}</p>
+              <p className="card-subtitle-1">{subtitle}</p>
               {isOverdue ? (
-                <p className="overdue">
+                <p className="overdue-1">
                   {" "}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +181,7 @@ export const Card = ({
                   {t("overdue")}: {dueDate}
                 </p>
               ) : (
-                <p className="due-date">
+                <p className="due-date-1">
                   {" "}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -232,7 +245,28 @@ export const Card = ({
             </div>
           </div>
         </>
-      )}
+      ) : layout === "layout3" ? (
+        <>
+          {/* New Layout 3 Content */}
+          <div className="card-header-3">
+            <input
+              type="checkbox"
+              checked={isCompleted}
+              onChange={() => onComplete(id, !isCompleted)}
+            />
+            <div className="card-title-container">
+              <h3 className={`card-title ${isCompleted ? "completed" : ""}`}>
+                {title}
+              </h3>
+              <p className="card-subtitle-1">{subtitle}</p>
+            </div>
+            <div className="card-meta">
+              <span className={`priority-tag ${priority}`}>{t(priority)}</span>
+              <span className={`category-tag ${category}`}>{t(category)}</span>
+            </div>
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };

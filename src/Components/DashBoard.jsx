@@ -5,16 +5,15 @@ import { Header } from "./Header.jsx";
 import { Card } from "./Card.jsx";
 import { Link } from "react-router-dom";
 import { SortOrder } from "./SortOrder.jsx";
-import { BulkAction } from "./BulkAction.jsx"; // Import the BulkAction component
+import { BulkAction } from "./BulkAction.jsx";
 import "../css/App.css";
 
 export const DashBoardPage = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [sortOrder, setSortOrder] = useState("asc");
-  const [markedTasks, setMarkedTasks] = useState([]); // Track marked tasks
-  const [cardLayout, setCardLayout] = useState("layout1"); // default to Layout 1
+  const [markedTasks, setMarkedTasks] = useState([]);
+  const [cardLayout, setCardLayout] = useState("layout1");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +22,7 @@ export const DashBoardPage = () => {
         const {
           data: { user },
         } = await supabase.auth.getUser();
+
         const { data, error } = await supabase
           .from("tasks")
           .select("id, title, priority, description, due_date, category")
@@ -91,11 +91,7 @@ export const DashBoardPage = () => {
     ? tasks.filter((task) => task.category === selectedCategory)
     : tasks;
 
-  const sortedTasks = [...filteredTasks].sort((a, b) => {
-    return sortOrder === "asc"
-      ? a.title.localeCompare(b.title)
-      : b.title.localeCompare(a.title);
-  });
+  const sortedTasks = [...filteredTasks].sort((a, b) => a.order - b.order);
 
   const handleEdit = (taskId) => {
     navigate(`/edit-task/${taskId}`);
@@ -107,6 +103,49 @@ export const DashBoardPage = () => {
       .update({ is_completed: isCompleted })
       .eq("id", taskId);
     setTasks(tasks.filter((task) => task.id !== taskId));
+  };
+
+  //Drag and Drop Function
+  // 1. Reorder utility
+  const reorder = (list, startIndex, endIndex) => {
+    const result = [...list];
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    return result;
+  };
+
+  // 2. Drag start — store dragged index in dataTransfer
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.setData("dragIndex", index);
+    e.currentTarget.classList.add("dragging");
+  };
+
+  // 3. Drag end — reset visual
+  const handleDragEnd = (e) => {
+    e.currentTarget.classList.remove("dragging");
+  };
+
+  // 4. Drop — reorder local task list
+  const handleDrop = (e, dropIndex) => {
+    e.preventDefault();
+    const dragIndex = parseInt(e.dataTransfer.getData("dragIndex"), 10);
+    if (isNaN(dragIndex)) return;
+
+    const newTaskOrder = reorder(tasks, dragIndex, dropIndex);
+    setTasks(newTaskOrder);
+
+    // Animate dropped card
+    const dropTarget = e.currentTarget;
+    dropTarget.classList.add("drop-anim");
+
+    setTimeout(() => {
+      dropTarget.classList.remove("drop-anim");
+    }, 300); // Match this to animation duration
+  };
+
+  // 5. Drag over — required to allow dropping
+  const handleDragOver = (e) => {
+    e.preventDefault();
   };
 
   if (loading) {
@@ -126,8 +165,6 @@ export const DashBoardPage = () => {
       <main className="dashboard-content">
         <div className="filter-container">
           <SortOrder
-            sortOrder={sortOrder}
-            setSortOrder={setSortOrder}
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
             cardLayout={cardLayout}
@@ -143,7 +180,7 @@ export const DashBoardPage = () => {
 
         <div className="task-list">
           {sortedTasks.length > 0 ? (
-            sortedTasks.map((task) => (
+            sortedTasks.map((task, index) => (
               <Card
                 key={task.id}
                 id={task.id}
@@ -158,6 +195,10 @@ export const DashBoardPage = () => {
                 onMarkTask={handleMarkTask} // Pass mark/unmark function to Card
                 isMarked={markedTasks.includes(task.id)} // Pass marked status to Card
                 layout={cardLayout}
+                onDragStart={(e) => handleDragStart(e, index)}
+                onDragEnd={handleDragEnd}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, index)}
               />
             ))
           ) : (
