@@ -1,15 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import { LoginPage } from "./Page/LoginPage";
-import { SignupPage } from "./Page/SignupPage";
-import { HomePage } from "./Page/HomePage";
-import { DashBoardPage } from "./Page/DashboardPage";
+import { LoginPage } from "./Components/Login";
+import { SignupPage } from "./Components/Signup";
+import { DashBoardPage } from "./Components/DashBoard";
 import { ProtectedRoute } from "./Supabase/ProtectedRoute";
-import { CreateTaskPage } from "./Page/CreateTaskPage";
-import { CompleteTaskPage } from "./Page/CompleteTaskPage";
+import { CreateTaskPage } from "./Components/CreateTask";
+import { CompleteTaskPage } from "./Components/CompleteTask";
 import "./css/App.css";
-import TestPage from "./Page/testPage";
-import TestPage2 from "./Page/testPage2";
-import { EditPage } from "./Page/EditPage";
+import { EditPage } from "./Components/EditTask";
 
 function App() {
   return (
@@ -17,22 +14,12 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="signup" element={<SignupPage />} />
-        <Route path="/test" element={<TestPage />} />
-        <Route path="/test2" element={<TestPage2 />} />
 
         <Route
           path="/dashboard"
           element={
             <ProtectedRoute>
               <DashBoardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <HomePage />
             </ProtectedRoute>
           }
         />

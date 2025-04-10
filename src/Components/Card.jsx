@@ -1,3 +1,6 @@
+import "../css/App.css";
+import { useTranslation } from "react-i18next";
+
 export const Card = ({
   title,
   priority,
@@ -10,19 +13,7 @@ export const Card = ({
   isCompleted,
   onComplete,
 }) => {
-  const priorityStyles = {
-    low: "bg-blue-200 text-blue-800",
-    medium: "bg-yellow-200 text-yellow-800",
-    high: "bg-red-200 text-red-800",
-  };
-
-  const categoryStyles = {
-    personal: "bg-green-200 text-green-800",
-    shopping: "bg-yellow-200 text-yellow-800",
-    health: "bg-blue-200 text-blue-800",
-    work: "bg-violet-200 text-violet-800",
-  };
-
+  const { t } = useTranslation();
   const isOverdue = new Date(dueDate) < new Date();
 
   const handleDelete = () => {
@@ -35,30 +26,20 @@ export const Card = ({
   };
 
   return (
-    <div className="bg-white m-2 p-4 m-4 rounded-lg shadow-md">
-      <div className="flex items-center mb-2">
-        <input type="checkbox" className="mr-2"
+    <div className="card">
+      <div className="card-header">
+        <input
+          type="checkbox"
           checked={isCompleted}
-          onChange={() => onComplete(id, !isCompleted)} />
-        <h3 className={`font-bold text-xl ${isCompleted ? "line-through text-gray-500" : ""}`}>{title}</h3>
+          onChange={() => onComplete(id, !isCompleted)}
+        />
+        <h3 className={`card-title ${isCompleted ? "completed" : ""}`}>
+          {title}
+        </h3>
 
-        <span
-          className={`ml-2 text-xs px-2 py-1 rounded-full ${priorityStyles[priority]}`}
-        >
-          {priority}
-        </span>
-
-        <span
-          className={`ml-2 text-xs px-2 py-1 rounded-full ${categoryStyles[category]}`}
-        >
-          {category}
-        </span>
-
-        {/* Edit Button */}
-        <i
-          onClick={() => onEdit(id)} // Call onEdit when clicked
-          className="ml-auto cursor-pointer"
-        >
+        <span className={`priority-tag ${priority}`}>{priority}</span>
+        <span className={`category-tag ${category}`}>{category}</span>
+        <i className="edit-icon" onClick={() => onEdit(id)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={18}
@@ -78,8 +59,7 @@ export const Card = ({
           </svg>
         </i>
 
-        {/* Delete Button */}
-        <i className="ml-2">
+        <i className="delete-icon" onClick={handleDelete}>
           <svg
             onClick={handleDelete}
             className="cursor-pointer"
@@ -100,10 +80,11 @@ export const Card = ({
         </i>
       </div>
 
-      <p className="text-gray-600 text-sm">{subtitle}</p>
+      <p className="card-subtitle">{subtitle}</p>
 
       {isOverdue ? (
-        <p className="text-red-500 text-xs mt-2 flex gap-1 items-center">
+        <p className="overdue">
+          {" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={16}
@@ -117,10 +98,11 @@ export const Card = ({
               clipRule="evenodd"
             ></path>
           </svg>{" "}
-          Overdue: {dueDate}
+          {t("overdue")}: {dueDate}
         </p>
       ) : (
-        <p className="text-gray-500 text-xs mt-2 flex gap-1 items-center">
+        <p className="due-date">
+          {" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={18}
@@ -137,8 +119,8 @@ export const Card = ({
               <path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm12-4v4M8 3v4m-4 4h16"></path>
               <path d="M11 16a1 1 0 1 0 2 0a1 1 0 1 0-2 0"></path>
             </g>
-          </svg>
-          Due: {dueDate}
+          </svg>{" "}
+          {t("due")}: {dueDate}
         </p>
       )}
     </div>

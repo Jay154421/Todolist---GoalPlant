@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import supabase from "../Supabase/SupabaseClient";
-import { Loading } from "../Components/Loading";
+import { Loading } from "./Loading";
+import "../css/App.css";
 
 export function EditPage() {
   const { taskId } = useParams(); // Get taskId from URL
@@ -68,16 +69,16 @@ export function EditPage() {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-32 p-6 bg-white shadow-lg rounded-lg">
-      {message && <div className="mb-4 text-red-500">{message}</div>}
-      <h2 className="text-xl font-bold mb-4">Edit Task</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="edit-container">
+      {message && <div className="error-message">{message}</div>}
+      <h2>Edit Task</h2>
+      <form onSubmit={handleSubmit} className="form-container">
         {/* Task Title */}
         <div>
-          <label className="block text-sm font-medium">Task</label>
+          <label>Task</label>
           <input
             type="text"
-            className="w-full p-2 border border-gray-300 rounded"
+            className="task-title"
             value={task.title}
             name="title"
             onChange={handleChange}
@@ -86,9 +87,9 @@ export function EditPage() {
 
         {/* Task Description */}
         <div>
-          <label className="block text-sm font-medium">Description</label>
+          <label>Description</label>
           <textarea
-            className="w-full p-2 border border-gray-300 rounded"
+            className="task-description"
             value={task.description}
             name="description"
             onChange={handleChange}
@@ -97,9 +98,9 @@ export function EditPage() {
 
         {/* Category */}
         <div>
-          <label className="block text-sm font-medium">Category</label>
+          <label>Category</label>
           <select
-            className="w-full p-2 border border-gray-300 rounded"
+            className="category-select"
             value={task.category}
             name="category"
             onChange={handleChange}
@@ -112,50 +113,40 @@ export function EditPage() {
         </div>
 
         {/* Priority */}
-        <div>
-          <label className="block text-sm font-medium">Priority</label>
-          <div className="flex space-x-4 mt-1">
-            {[
-              { label: "Low", value: "low" },
-              {
-                label: "Medium",
-                value: "medium",
-                className: "text-yellow-500",
-              },
-              { label: "High", value: "high", className: "text-red-500" },
-            ].map(({ label, value, className }) => (
-              <label key={value} className="flex items-center space-x-1">
-                <input
-                  type="radio"
-                  name="priority"
-                  value={value}
-                  checked={task.priority === value}
-                  onChange={handlePriorityChange}
-                />
-                <span className={`text-sm font-medium ${className}`}>
-                  {label}
-                </span>
-              </label>
-            ))}
-          </div>
+        <div className="flex">
+          {[
+            { label: "Low", value: "low", className: "priority-low" },
+            { label: "Medium", value: "medium", className: "priority-medium" },
+            { label: "High", value: "high", className: "priority-high" },
+          ].map(({ label, value, className }) => (
+            <label key={value} className="flex items-center space-x-1">
+              <input
+                type="radio"
+                name="priority"
+                value={value}
+                checked={task.priority === value}
+                onChange={handlePriorityChange}
+              />
+              <span className={`text-sm font-medium ${className}`}>
+                {label}
+              </span>
+            </label>
+          ))}
         </div>
 
         {/* Due Date */}
         <div>
-          <label className="block text-sm font-medium">Due Date</label>
-          <div className="relative">
+          <label>Due Date</label>
+          <div className="date-picker-container">
             <input
               type="text"
-              className="w-full p-2 border border-gray-300 rounded pl-10"
+              className="date-picker"
               placeholder="Select a date"
               value={task.due_date}
               onClick={toggleCalendar}
               readOnly
             />
-            <span
-              className="absolute left-3 top-2 text-gray-500 cursor-pointer"
-              onClick={toggleCalendar}
-            >
+            <span className="date-picker-icon" onClick={toggleCalendar}>
               📅
             </span>
             {showCalendar && (
@@ -171,14 +162,9 @@ export function EditPage() {
         {/* Submit Button */}
         <div className="flex justify-between mt-4">
           <Link to="/dashboard">
-            <button className="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-100">
-              Cancel
-            </button>
+            <button className="cancel-button">Cancel</button>
           </Link>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-[#007bff] text-white rounded hover:bg-[#82b8f3]"
-          >
+          <button type="submit" className="submit-button">
             Edit Task
           </button>
         </div>
