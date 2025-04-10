@@ -27,6 +27,18 @@ export function TaskOverview() {
   const [completedCount, setCompletedCount] = useState(0);
   const [pendingCount, setPendingCount] = useState(0);
   const [weeklyData, setWeeklyData] = useState([]);
+  const [totalTrackedTime, setTotalTrackedTime] = useState(0);
+
+  console.log("Total Tracked Time:", totalTrackedTime);
+
+  const formatTime = (seconds) => {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return `${h.toString().padStart(2, "0")}:${m
+      .toString()
+      .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+  };
 
   useEffect(() => {
     const fetchTaskStats = async () => {
@@ -74,6 +86,17 @@ export function TaskOverview() {
       }
     };
 
+    let totalSeconds = 0;
+    for (let key in localStorage) {
+      if (key.startsWith("task-time-")) {
+        const value = parseInt(localStorage.getItem(key), 10);
+        if (!isNaN(value)) {
+          totalSeconds += value;
+        }
+      }
+    }
+    setTotalTrackedTime(totalSeconds);
+
     fetchTaskStats();
   }, []);
 
@@ -118,6 +141,10 @@ export function TaskOverview() {
           <div className="box-task-pending">
             <p className="no-task-pending">{pendingCount}</p>
             <p>Pending Task</p>
+          </div>
+          <div className="box-task-tracked">
+            <p className="total-tracked-time">{formatTime(totalTrackedTime)}</p>
+            <p>Total Time Tracked</p>
           </div>
           <div className="box-task-statistics">
             <Bar data={data} options={options} />

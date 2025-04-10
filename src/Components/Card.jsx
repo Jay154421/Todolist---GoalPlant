@@ -1,6 +1,8 @@
 // src/components/Card.jsx
 import "../css/App.css";
 import { useTranslation } from "react-i18next";
+import { TimeTracking } from "./TimeTracking";
+import { useState, useEffect } from "react";
 
 export const Card = ({
   title,
@@ -23,6 +25,41 @@ export const Card = ({
 }) => {
   const { t } = useTranslation();
   const isOverdue = new Date(dueDate) < new Date();
+  const [showTimer, setShowTimer] = useState(false);
+  const [trackedTime, setTrackedTime] = useState(0);
+  const [timerRunning, setTimerRunning] = useState(false); // Track if the timer is running
+
+  const formatTime = (seconds) => {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return `${h.toString().padStart(2, "0")}:${m
+      .toString()
+      .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+  };
+
+  // Read saved time when the component mounts
+  useEffect(() => {
+    const savedTime = localStorage.getItem(`task-time-${id}`);
+    if (savedTime) {
+      setTrackedTime(parseInt(savedTime, 10));
+    }
+  }, [id]);
+
+  // Update the timer continuously
+  useEffect(() => {
+    if (timerRunning) {
+      const interval = setInterval(() => {
+        setTrackedTime((prev) => {
+          const updatedTime = prev + 1;
+          localStorage.setItem(`task-time-${id}`, updatedTime);
+          return updatedTime;
+        });
+      }, 1000);
+
+      return () => clearInterval(interval); // Clean up the interval when the timer is stopped
+    }
+  }, [timerRunning, id]);
 
   const handleDelete = () => {
     const isConfirmed = window.confirm(
@@ -53,6 +90,54 @@ export const Card = ({
           <div className="card-details">
             <span className={`priority-tag ${priority}`}> {t(priority)}</span>
             <span className={`category-tag ${category}`}>{t(category)}</span>
+            <button
+              className="time-track-btn"
+              onClick={(e) => {
+                e.stopPropagation(); // prevent marking on card click
+                setShowTimer(true);
+              }}
+            >
+              {timerRunning ? (
+                <p className="tracked-time">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={18}
+                    height={18}
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10m0-2a8 8 0 1 0 0-16a8 8 0 0 0 0 16m1-8h4v2h-6V7h2z"
+                    ></path>
+                  </svg>{" "}
+                  {formatTime(trackedTime)}
+                </p>
+              ) : (
+                <p className="tracked-time">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={18}
+                    height={18}
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10m0-2a8 8 0 1 0 0-16a8 8 0 0 0 0 16m1-8h4v2h-6V7h2z"
+                    ></path>
+                  </svg>{" "}
+                  Track Time
+                </p>
+              )}
+            </button>
+
+            {showTimer && (
+              <TimeTracking
+                taskId={id}
+                onClose={() => setShowTimer(false)}
+                setTimerRunning={setTimerRunning} // Pass the setter to TimeTracking to handle start/stop
+                timerRunning={timerRunning}
+              />
+            )}
           </div>
           <div className="card-header">
             <input
@@ -105,7 +190,6 @@ export const Card = ({
           </div>
 
           <p className="card-subtitle">{subtitle}</p>
-
           {isOverdue ? (
             <p className="overdue">
               {" "}
@@ -162,47 +246,97 @@ export const Card = ({
                 {title}
               </h3>
               <p className="card-subtitle-1">{subtitle}</p>
-              {isOverdue ? (
-                <p className="overdue-1">
-                  {" "}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={20}
-                    height={20}
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fill="currentColor"
-                      fillRule="evenodd"
-                      d="M5 1a.75.75 0 0 1 .75.75V3h5V1.75a.75.75 0 0 1 1.5 0V3H14a1 1 0 0 1 1 1v4.25a.75.75 0 0 1-1.5 0V7.5h-11v6h5.75a.75.75 0 0 1 0 1.5H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h2.25V1.75A.75.75 0 0 1 5 1M2.5 6h11V4.5h-11zm8.78 4.22a.75.75 0 1 0-1.06 1.06L11.94 13l-1.72 1.72a.75.75 0 1 0 1.06 1.06L13 14.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L14.06 13l1.72-1.72a.75.75 0 1 0-1.06-1.06L13 11.94z"
-                      clipRule="evenodd"
-                    ></path>
-                  </svg>{" "}
-                  {t("overdue")}: {dueDate}
-                </p>
-              ) : (
-                <p className="due-date-1">
-                  {" "}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={20}
-                    height={20}
-                    viewBox="0 0 24 24"
-                  >
-                    <g
-                      fill="none"
-                      stroke="#676e77"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
+              <div className="card-bottom">
+                {isOverdue ? (
+                  <p className="overdue-1">
+                    {" "}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={20}
+                      height={20}
+                      viewBox="0 0 16 16"
                     >
-                      <path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm12-4v4M8 3v4m-4 4h16"></path>
-                      <path d="M11 16a1 1 0 1 0 2 0a1 1 0 1 0-2 0"></path>
-                    </g>
-                  </svg>
-                  {t("due")}: {dueDate}
-                </p>
-              )}
+                      <path
+                        fill="currentColor"
+                        fillRule="evenodd"
+                        d="M5 1a.75.75 0 0 1 .75.75V3h5V1.75a.75.75 0 0 1 1.5 0V3H14a1 1 0 0 1 1 1v4.25a.75.75 0 0 1-1.5 0V7.5h-11v6h5.75a.75.75 0 0 1 0 1.5H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h2.25V1.75A.75.75 0 0 1 5 1M2.5 6h11V4.5h-11zm8.78 4.22a.75.75 0 1 0-1.06 1.06L11.94 13l-1.72 1.72a.75.75 0 1 0 1.06 1.06L13 14.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L14.06 13l1.72-1.72a.75.75 0 1 0-1.06-1.06L13 11.94z"
+                        clipRule="evenodd"
+                      ></path>
+                    </svg>{" "}
+                    {t("overdue")}: {dueDate}
+                  </p>
+                ) : (
+                  <p className="due-date-1">
+                    {" "}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={20}
+                      height={20}
+                      viewBox="0 0 24 24"
+                    >
+                      <g
+                        fill="none"
+                        stroke="#676e77"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                      >
+                        <path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm12-4v4M8 3v4m-4 4h16"></path>
+                        <path d="M11 16a1 1 0 1 0 2 0a1 1 0 1 0-2 0"></path>
+                      </g>
+                    </svg>
+                    {t("due")}: {dueDate}
+                  </p>
+                )}
+                <button
+                  className="time-track-btn"
+                  onClick={(e) => {
+                    e.stopPropagation(); // prevent marking on card click
+                    setShowTimer(true);
+                  }}
+                >
+                  {timerRunning ? (
+                    <p className="tracked-time">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width={18}
+                        height={18}
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10m0-2a8 8 0 1 0 0-16a8 8 0 0 0 0 16m1-8h4v2h-6V7h2z"
+                        ></path>
+                      </svg>{" "}
+                      {formatTime(trackedTime)}
+                    </p>
+                  ) : (
+                    <p className="tracked-time">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width={18}
+                        height={18}
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10m0-2a8 8 0 1 0 0-16a8 8 0 0 0 0 16m1-8h4v2h-6V7h2z"
+                        ></path>
+                      </svg>{" "}
+                      Track Time
+                    </p>
+                  )}
+                </button>
+
+                {showTimer && (
+                  <TimeTracking
+                    taskId={id}
+                    onClose={() => setShowTimer(false)}
+                    setTimerRunning={setTimerRunning} // Pass the setter to TimeTracking to handle start/stop
+                    timerRunning={timerRunning}
+                  />
+                )}
+              </div>
             </div>
             <div className="dropdown-action">
               <i className="edit-icon" onClick={() => onEdit(id)}>
