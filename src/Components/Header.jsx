@@ -4,11 +4,13 @@ import React, { useState } from "react";
 import { Notification } from "./Notification";
 import "../css/App.css";
 import Switch from "./Switch";
-import LanguageSelector from "./LanguageSelector"; // ✅ NEW IMPORT
+import LanguageSelector from "./LanguageSelector";
+import { useTranslation } from "react-i18next";
 
 export function Header() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [language, setLanguage] = useState("en");
+  const { t } = useTranslation();
 
   const toggleMenu = () => setMenuVisible(!menuVisible);
 
@@ -52,17 +54,17 @@ export function Header() {
       <nav className={`menu ${menuVisible ? "show" : ""}`}>
         <ul>
           <li>
-            <a href="/Dashboard">Dashboard</a>
+            <a href="/Dashboard">{t("Dashboard")}</a>
           </li>
           <li>
-            <a href="/task-overview">Task Overview</a>
+            <a href="/task-overview">{t("Task Overview")}</a>
           </li>
           <li>
-            <a href="/complete-task">Archived  Complete Task</a>
+            <a href="/complete-task">{t("Archived Complete Task")}</a>
           </li>
           <li>
             <button className="button-logout" onClick={signOut}>
-              Logout
+              {t("Logout")}
             </button>
           </li>
         </ul>

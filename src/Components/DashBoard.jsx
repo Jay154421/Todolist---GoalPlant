@@ -6,15 +6,17 @@ import { Card } from "./Card.jsx";
 import { Link } from "react-router-dom";
 import { SortOrder } from "./SortOrder.jsx";
 import { BulkAction } from "./BulkAction.jsx";
+import { useTranslation } from "react-i18next";
 import "../css/App.css";
 
-export const DashBoardPage = () => {
+export const DashBoard = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [markedTasks, setMarkedTasks] = useState([]);
   const [cardLayout, setCardLayout] = useState("layout1");
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -23,19 +25,16 @@ export const DashBoardPage = () => {
           data: { user },
         } = await supabase.auth.getUser();
 
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from("tasks")
           .select("id, title, priority, description, due_date, category")
           .eq("user_id", user.id)
           .eq("is_completed", false)
           .limit(50);
-
-        if (error) throw error;
+        setLoading(false);
         setTasks(data);
       } catch (error) {
         console.error("Error fetching tasks:", error.message);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -44,11 +43,10 @@ export const DashBoardPage = () => {
 
   // Handle marking/unmarking a task
   const handleMarkTask = (taskId) => {
-    setMarkedTasks(
-      (prev) =>
-        prev.includes(taskId)
-          ? prev.filter((id) => id !== taskId) // Unmark task
-          : [...prev, taskId] // Mark task
+    setMarkedTasks((prev) =>
+      prev.includes(taskId)
+        ? prev.filter((id) => id !== taskId)
+        : [...prev, taskId]
     );
   };
 
@@ -60,18 +58,23 @@ export const DashBoardPage = () => {
       setMarkedTasks(tasks.map((task) => task.id)); // Mark all
     }
   };
-
   // Handle Delete All functionality
   const handleDeleteAll = async () => {
     try {
       const { error } = await supabase
         .from("tasks")
         .delete()
-        .in("id", markedTasks); // Delete marked tasks
+        .in("id", markedTasks);
 
       if (error) throw error;
-      setTasks(tasks.filter((task) => !markedTasks.includes(task.id))); // Remove deleted tasks from state
-      setMarkedTasks([]); // Clear marked tasks
+
+      const isConfirmed = window.confirm(
+        "Are you sure you want to delete all this card?"
+      );
+      if (isConfirmed) {
+        setTasks(tasks.filter((task) => !markedTasks.includes(task.id)));
+        setMarkedTasks([]);
+      }
     } catch (error) {
       console.error("Error deleting tasks:", error.message);
     }
@@ -202,7 +205,7 @@ export const DashBoardPage = () => {
               />
             ))
           ) : (
-            <p className="no-tasks">No tasks found.</p>
+            <p className="no-tasks">{t("No tasks found.")}</p>
           )}
         </div>
       </main>

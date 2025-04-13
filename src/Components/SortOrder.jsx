@@ -59,7 +59,7 @@ export const SortOrder = ({
               }`}
               onClick={() => setCardLayout("layout1")}
             >
-              Layout 1 (Default)
+              {t("Layout 1")}
             </button>
             <button
               className={`dropdown-item ${
@@ -67,7 +67,7 @@ export const SortOrder = ({
               }`}
               onClick={() => setCardLayout("layout2")}
             >
-              Layout 2
+              {t("Layout 2")}
             </button>
             <button
               className={`dropdown-item ${
@@ -75,7 +75,7 @@ export const SortOrder = ({
               }`}
               onClick={() => setCardLayout("layout3")}
             >
-              Layout 3
+              {t("Layout 3")}
             </button>
           </div>
         )}

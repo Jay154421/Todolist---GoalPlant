@@ -1,23 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@400;600&display=swap");
 @import "tailwindcss";
 
-:root {
-  --primary-color: #007bff;
-  --secondary-color: #343a40;
-}
-
 body {
-  --background-color: #121212;
-  --text-color: white;
-  --primary-color: #007bff;
-  --secondary-color: #2a2a2a;
-}
-
-body.dark-mode {
   --background-color: white;
   --text-color: black;
   --primary-color: #007bff;
   --secondary-color: #f3f4f6;
+}
+
+body.dark-mode {
+  --background-color: #121212;
+  --text-color: white;
+  --primary-color: #007bff;
+  --secondary-color: #2a2a2a;
 }
 
 body {
@@ -775,9 +770,11 @@ input[type="checkbox"] {
   display: flex;
   justify-content: space-between;
   padding: 10px;
+  align-items: center;
   background-color: #f4f4f4;
   border-radius: 8px;
   margin-bottom: 10px;
+  gap: 8px;
 }
 
 .card-title-container {
@@ -997,7 +994,6 @@ input[type="checkbox"] {
 .create-task-container {
   color: var(--text-color);
   max-width: 28rem;
-  margin: 8rem auto;
   padding: 1.5rem;
   background-color: var(--secondary-color);
 }

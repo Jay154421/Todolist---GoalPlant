@@ -3,6 +3,8 @@ import supabase from "../Supabase/SupabaseClient.js";
 import "../css/App.css";
 import { Header } from "./Header";
 import { Bar } from "react-chartjs-2";
+import { useTranslation } from "react-i18next";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -28,6 +30,7 @@ export function TaskOverview() {
   const [pendingCount, setPendingCount] = useState(0);
   const [weeklyData, setWeeklyData] = useState([]);
   const [totalTrackedTime, setTotalTrackedTime] = useState(0);
+  const { t } = useTranslation();
 
   console.log("Total Tracked Time:", totalTrackedTime);
 
@@ -104,7 +107,7 @@ export function TaskOverview() {
     labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     datasets: [
       {
-        label: "Tasks Completed",
+        label: t("Task Completed"),
         data: weeklyData,
         backgroundColor: "rgba(75, 192, 192, 0.6)",
         borderColor: "rgba(75, 192, 192, 1)",
@@ -119,7 +122,7 @@ export function TaskOverview() {
       legend: { position: "top" },
       title: {
         display: true,
-        text: "Daily Task Completion Statistics",
+        text: t("Daily Task Completed Statistics"),
         color: "black",
         font: {
           size: 20,
@@ -136,15 +139,15 @@ export function TaskOverview() {
         <div className="box-overview">
           <div className="box-task-completed">
             <p className="no-task-completed">{completedCount}</p>
-            <p>Task Completed</p>
+            <p>{t("Task Completed")}</p>
           </div>
           <div className="box-task-pending">
             <p className="no-task-pending">{pendingCount}</p>
-            <p>Pending Task</p>
+            <p>{t("Pending Task")}</p>
           </div>
           <div className="box-task-tracked">
             <p className="total-tracked-time">{formatTime(totalTrackedTime)}</p>
-            <p>Total Time Tracked</p>
+            <p>{t("Total Time Tracked")}</p>
           </div>
           <div className="box-task-statistics">
             <Bar data={data} options={options} />

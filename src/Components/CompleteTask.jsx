@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import supabase from "../Supabase/SupabaseClient.js";
 import { Header } from "./Header.jsx";
 import { Card } from "./Card.jsx";
+import { useTranslation } from "react-i18next";
 
-export const CompleteTaskPage = () => {
+export const CompleteTask = () => {
   const [completedTasks, setCompletedTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchCompletedTasks = async () => {
@@ -64,10 +66,12 @@ export const CompleteTaskPage = () => {
   };
 
   return (
-    <div className="font-roboto">
+    <div>
       <Header />
-      <main className="p-4">
-        <h2 className="text-center text-xl font-bold mb-6">Completed Tasks</h2>
+      <main className="dashboard-content">
+        <h2 className="text-center text-xl font-bold mt-2 mb-6">
+          {t("Completed Tasks")}
+        </h2>
         {loading ? (
           <p className="text-center ">Loading Task...</p>
         ) : completedTasks.length > 0 ? (
@@ -83,10 +87,11 @@ export const CompleteTaskPage = () => {
               isCompleted={true}
               onComplete={handleUncomplete} // Pass the uncomplete handler
               onDelete={handleDelete}
+              layout="layout1"
             />
           ))
         ) : (
-          <p className="text-center">No completed tasks.</p>
+          <p className="text-center">{t("No completed tasks.")}</p>
         )}
       </main>
     </div>

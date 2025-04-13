@@ -4,7 +4,7 @@ import supabase from "../Supabase/SupabaseClient";
 import logo from "../assets/logo.png";
 import "../css/App.css";
 
-export function SignupPage() {
+export function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
