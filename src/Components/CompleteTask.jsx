@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import supabase from "../Supabase/SupabaseClient.js";
 import { Header } from "./Header.jsx";
 import { Card } from "./Card.jsx";
+import { useTranslation } from "react-i18next";
 
-export const CompleteTaskPage = () => {
+export const CompleteTask = () => {
   const [completedTasks, setCompletedTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchCompletedTasks = async () => {
@@ -44,7 +46,7 @@ export const CompleteTaskPage = () => {
 
       if (!error) {
         // Remove the task from the completed tasks list
-        setCompletedTasks(completedTasks.filter(task => task.id !== taskId));
+        setCompletedTasks(completedTasks.filter((task) => task.id !== taskId));
       } else {
         throw error;
       }
@@ -53,11 +55,23 @@ export const CompleteTaskPage = () => {
     }
   };
 
+  const handleDelete = async (taskId) => {
+    try {
+      const { error } = await supabase.from("tasks").delete().eq("id", taskId);
+      if (error) throw error;
+      setCompletedTasks(completedTasks.filter((task) => task.id !== taskId));
+    } catch (error) {
+      console.error("Error deleting task:", error.message);
+    }
+  };
+
   return (
-    <div className="font-roboto">
+    <div>
       <Header />
-      <main className="p-4">
-        <h2 className="text-center text-xl font-bold mb-6">Completed Tasks</h2>
+      <main className="dashboard-content">
+        <h2 className="text-center text-xl font-bold mt-2 mb-6">
+          {t("Completed Tasks")}
+        </h2>
         {loading ? (
           <p className="text-center ">Loading Task...</p>
         ) : completedTasks.length > 0 ? (
@@ -72,14 +86,12 @@ export const CompleteTaskPage = () => {
               category={task.category}
               isCompleted={true}
               onComplete={handleUncomplete} // Pass the uncomplete handler
-              onDelete={(id) => {
-                // Optional: Add delete functionality if needed
-                handleUncomplete(id); // Treat delete as uncomplete
-              }}
+              onDelete={handleDelete}
+              layout="layout1"
             />
           ))
         ) : (
-          <p className="text-center">No completed tasks.</p>
+          <p className="text-center">{t("No completed tasks.")}</p>
         )}
       </main>
     </div>

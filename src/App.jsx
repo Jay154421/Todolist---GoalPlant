@@ -1,25 +1,26 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import { LoginPage } from "./Components/Login";
-import { SignupPage } from "./Components/Signup";
-import { DashBoardPage } from "./Components/DashBoard";
+import { Login } from "./Components/Login";
+import { Signup } from "./Components/Signup";
+import { DashBoard } from "./Components/DashBoard";
 import { ProtectedRoute } from "./Supabase/ProtectedRoute";
-import { CreateTaskPage } from "./Components/CreateTask";
-import { CompleteTaskPage } from "./Components/CompleteTask";
+import { CreateTask } from "./Components/CreateTask";
+import { CompleteTask } from "./Components/CompleteTask";
 import "./css/App.css";
-import { EditPage } from "./Components/EditTask";
+import { EditTask } from "./Components/EditTask";
+import { TaskOverview } from "./Components/TaskOverview";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="signup" element={<SignupPage />} />
+        <Route path="/" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
 
         <Route
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <DashBoardPage />
+              <DashBoard />
             </ProtectedRoute>
           }
         />
@@ -28,7 +29,16 @@ function App() {
           path="/complete-task"
           element={
             <ProtectedRoute>
-              <CompleteTaskPage />
+              <CompleteTask />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/task-overview"
+          element={
+            <ProtectedRoute>
+              <TaskOverview />
             </ProtectedRoute>
           }
         />
@@ -37,7 +47,7 @@ function App() {
           path="/create-task"
           element={
             <ProtectedRoute>
-              <CreateTaskPage />
+              <CreateTask />
             </ProtectedRoute>
           }
         />
@@ -46,7 +56,7 @@ function App() {
           path="/edit-task/:taskId"
           element={
             <ProtectedRoute>
-              <EditPage />
+              <EditTask />
             </ProtectedRoute>
           }
         />

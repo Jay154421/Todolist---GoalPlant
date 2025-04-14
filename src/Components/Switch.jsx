@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../css/App.css";
 
 const Switch = () => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(true);
 
   useEffect(() => {
     // Check localStorage for the current theme
@@ -15,11 +15,11 @@ const Switch = () => {
 
   const handleToggle = () => {
     if (isChecked) {
-      document.body.classList.remove("dark-mode");
-      localStorage.setItem("theme", "light");
-    } else {
       document.body.classList.add("dark-mode");
       localStorage.setItem("theme", "dark");
+    } else {
+      document.body.classList.remove("dark-mode");
+      localStorage.setItem("theme", "light");
     }
     setIsChecked(!isChecked);
   };

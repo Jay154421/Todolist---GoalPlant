@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import "../css/App.css";
 
@@ -14,14 +14,20 @@ const LanguageSelector = () => {
   const { i18n } = useTranslation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  useEffect(() => {
+    const currentLanguage = localStorage.getItem("language");
+    if (currentLanguage) {
+      i18n.changeLanguage(currentLanguage);
+    }
+  }, [i18n]);
+
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   const onSelectLanguage = (langCode) => {
     i18n.changeLanguage(langCode); // Changes language in i18next
+    localStorage.setItem("language", langCode);
     setIsDropdownOpen(false);
   };
-
-  console.log("Current language:", i18n.language); // Debugging line
 
   return (
     <div className="language-dropdown">

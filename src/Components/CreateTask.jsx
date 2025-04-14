@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../Supabase/SupabaseClient";
 import "../css/App.css"; // Import the CSS file
+import { useTranslation } from "react-i18next";
 
-export function CreateTaskPage() {
+export function CreateTask() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("work");
@@ -12,6 +13,7 @@ export function CreateTaskPage() {
   const [showCalendar, setShowCalendar] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handlePriorityChange = (e) => {
     setPriority(e.target.value);
@@ -53,20 +55,20 @@ export function CreateTaskPage() {
   return (
     <div className="create-task-container">
       {message && <div className="message">{message}</div>}
-      <h2 className="page-title">Add New Task</h2>
+      <h2 className="page-title">{t("Add New Task")}</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="label">Task</label>
+          <label className="label">{t("Task")}</label>
           <input
             type="text"
             className="form-input"
-            placeholder="Task title"
+            placeholder={t("Task title")}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div>
-          <label className="label">Description</label>
+          <label className="label">{t("Description")}</label>
           <textarea
             className="form-textarea"
             placeholder="Task description (optional)"
@@ -75,29 +77,29 @@ export function CreateTaskPage() {
           ></textarea>
         </div>
         <div>
-          <label className="label">Category</label>
+          <label className="label">{t("Category")}</label>
           <select
             className="form-select"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option value="personal">Personal</option>
+            <option value="personal">{t("personal")}</option>
             {/* <option value="health">Health</option> */}
-            <option value="work">Work</option>
-            <option value="school">School</option>
+            <option value="work">{t("work")}</option>
+            <option value="school">{t("school")}</option>
           </select>
         </div>
         <div>
-          <label className="label">Priority</label>
+          <label className="label">{t("Priority")}</label>
           <div className="priority-options">
             {[
-              { label: "Low", value: "low" },
+              { label: "low", value: "low", className: "priority-low" },
               {
-                label: "Medium",
+                label: "medium",
                 value: "medium",
-                className: "text-yellow-500",
+                className: "priority-medium",
               },
-              { label: "High", value: "high", className: "text-red-500" },
+              { label: "high", value: "high", className: "priority-high" },
             ].map(({ label, value, className }) => (
               <label key={value} className="flex items-center space-x-1">
                 <input
@@ -108,19 +110,19 @@ export function CreateTaskPage() {
                   onChange={handlePriorityChange}
                 />
                 <span className={`text-sm font-medium ${className}`}>
-                  {label}
+                  {t(label)}
                 </span>
               </label>
             ))}
           </div>
         </div>
         <div>
-          <label className="label">Due Date</label>
+          <label className="label">{t("Due Date")}</label>
           <div className="due-date-wrapper">
             <input
               type="text"
               className="due-date-input"
-              placeholder="Select a date"
+              placeholder={t("Select a date")}
               value={dueDate}
               onClick={toggleCalendar}
               readOnly

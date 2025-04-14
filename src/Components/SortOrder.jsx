@@ -1,22 +1,18 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next"; // Import the useTranslation hook
 import "../css/App.css";
 
 export const SortOrder = ({
-  sortOrder,
-  setSortOrder,
   selectedCategory,
   setSelectedCategory,
+  cardLayout,
+  setCardLayout,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { t } = useTranslation(); // Initialize the useTranslation hook
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const handleSort = (order) => {
-    console.log("Sorting by:", order);
-    setSortOrder(order);
-    setIsDropdownOpen(false);
   };
 
   return (
@@ -33,7 +29,7 @@ export const SortOrder = ({
               selectedCategory === category ? "selected" : ""
             }`}
           >
-            {category}
+            {t(category)} {/* Translate category names */}
           </button>
         ))}
       </div>
@@ -43,39 +39,43 @@ export const SortOrder = ({
         <button onClick={toggleDropdown} className="dropdown-button">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={24}
-            height={24}
-            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
           >
             <path
-              fill="none"
-              stroke="#151515"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M12 5.92A.96.96 0 1 0 12 4a.96.96 0 0 0 0 1.92m0 7.04a.96.96 0 1 0 0-1.92a.96.96 0 0 0 0 1.92M12 20a.96.96 0 1 0 0-1.92a.96.96 0 0 0 0 1.92"
-            ></path>
+              fill="#000"
+              d="M10.001 7.8a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 10 7.8zm0-2.6A2.2 2.2 0 1 0 9.999.8a2.2 2.2 0 0 0 .002 4.4m0 9.6a2.2 2.2 0 1 0 0 4.402a2.2 2.2 0 0 0 0-4.402"
+            />
           </svg>
         </button>
 
         {isDropdownOpen && (
           <div className="dropdown-menu-sort">
-            <div className="dropdown-header">Sort by Task</div>
+            <div className="dropdown-header">{t("Customize Task")}</div>
             <button
-              onClick={() => handleSort("asc")}
               className={`dropdown-item ${
-                sortOrder === "asc" ? "selected" : ""
+                cardLayout === "layout1" ? "selected" : ""
               }`}
+              onClick={() => setCardLayout("layout1")}
             >
-              A-Z
+              {t("Layout 1")}
             </button>
             <button
-              onClick={() => handleSort("desc")}
               className={`dropdown-item ${
-                sortOrder === "desc" ? "selected" : ""
+                cardLayout === "layout2" ? "selected" : ""
               }`}
+              onClick={() => setCardLayout("layout2")}
             >
-              Z-A
+              {t("Layout 2")}
+            </button>
+            <button
+              className={`dropdown-item ${
+                cardLayout === "layout3" ? "selected" : ""
+              }`}
+              onClick={() => setCardLayout("layout3")}
+            >
+              {t("Layout 3")}
             </button>
           </div>
         )}

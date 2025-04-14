@@ -3,13 +3,15 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import supabase from "../Supabase/SupabaseClient";
 import { Loading } from "./Loading";
 import "../css/App.css";
+import { useTranslation } from "react-i18next";
 
-export function EditPage() {
+export function EditTask() {
   const { taskId } = useParams(); // Get taskId from URL
   const [task, setTask] = useState(null);
   const [message, setMessage] = useState("");
   const [showCalendar, setShowCalendar] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchTask = async () => {
@@ -71,11 +73,11 @@ export function EditPage() {
   return (
     <div className="edit-container">
       {message && <div className="error-message">{message}</div>}
-      <h2>Edit Task</h2>
+      <h2>{t("Edit Task")}</h2>
       <form onSubmit={handleSubmit} className="form-container">
         {/* Task Title */}
         <div>
-          <label>Task</label>
+          <label>{t("Task")}</label>
           <input
             type="text"
             className="task-title"
@@ -87,7 +89,7 @@ export function EditPage() {
 
         {/* Task Description */}
         <div>
-          <label>Description</label>
+          <label>{t("Description")}</label>
           <textarea
             className="task-description"
             value={task.description}
@@ -98,26 +100,25 @@ export function EditPage() {
 
         {/* Category */}
         <div>
-          <label>Category</label>
+          <label>{t("Category")}</label>
           <select
             className="category-select"
             value={task.category}
             name="category"
             onChange={handleChange}
           >
-            <option value="personal">Personal</option>
-            <option value="shopping">Shopping</option>
-            <option value="health">Health</option>
-            <option value="work">Work</option>
+            <option value="personal">{t("personal")}</option>
+            <option value="school">{t("school")}</option>
+            <option value="work">{t("work")}</option>
           </select>
         </div>
 
         {/* Priority */}
         <div className="flex">
           {[
-            { label: "Low", value: "low", className: "priority-low" },
-            { label: "Medium", value: "medium", className: "priority-medium" },
-            { label: "High", value: "high", className: "priority-high" },
+            { label: "low", value: "low", className: "priority-low" },
+            { label: "medium", value: "medium", className: "priority-medium" },
+            { label: "high", value: "high", className: "priority-high" },
           ].map(({ label, value, className }) => (
             <label key={value} className="flex items-center space-x-1">
               <input
@@ -128,7 +129,7 @@ export function EditPage() {
                 onChange={handlePriorityChange}
               />
               <span className={`text-sm font-medium ${className}`}>
-                {label}
+                {t(label)}
               </span>
             </label>
           ))}
@@ -136,7 +137,7 @@ export function EditPage() {
 
         {/* Due Date */}
         <div>
-          <label>Due Date</label>
+          <label>{t("Due Date")}</label>
           <div className="date-picker-container">
             <input
               type="text"

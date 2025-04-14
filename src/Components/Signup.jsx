@@ -4,7 +4,7 @@ import supabase from "../Supabase/SupabaseClient";
 import logo from "../assets/logo.png";
 import "../css/App.css";
 
-export function SignupPage() {
+export function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -38,7 +38,7 @@ export function SignupPage() {
     <div className="signup-container">
       <div className="signup-box">
         <div className="logo-container">
-          <img src={logo} alt="Logo" width={45} height={45} />
+          <img src={logo} alt="Logo" width={55} height={55} />
         </div>
         <h1 className="app-title">GoalPlan</h1>
         <h2 className="signup-heading">Create an account</h2>
