@@ -35,7 +35,7 @@ export function Login() {
     <div className="login-container">
       <div className="login-box">
         <div className="logo-container">
-          <img src={logo} alt="Logo" width={45} height={45} />
+          <img src={logo} alt="Logo" width={55} height={55} />
         </div>
         <h1 className="app-title">GoalPlan</h1>
 

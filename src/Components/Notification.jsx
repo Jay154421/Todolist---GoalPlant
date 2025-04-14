@@ -100,12 +100,19 @@ export const Notification = () => {
 
   const handleComplete = async (taskId) => {
     try {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from("tasks")
         .update({ is_completed: true })
-        .eq("id", taskId);
-      if (!error)
+        .eq("id", taskId)
+        .select();
+
+      if (error) {
+        throw error;
+      }
+
+      if (data && data.length > 0) {
         setNotifications(notifications.filter((n) => n.taskId !== taskId));
+      }
     } catch (error) {
       console.error("Error completing task:", error);
     }

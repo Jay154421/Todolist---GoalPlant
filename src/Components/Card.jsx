@@ -1,4 +1,3 @@
-
 import "../css/App.css";
 import { useTranslation } from "react-i18next";
 import { TimeTracking } from "./TimeTracking";
@@ -16,7 +15,7 @@ export const Card = ({
   isCompleted,
   onComplete,
   onMarkTask,
-  isMarked, 
+  isMarked,
   layout,
   onDragStart,
   onDragEnd,
@@ -27,7 +26,7 @@ export const Card = ({
   const isOverdue = new Date(dueDate) < new Date();
   const [showTimer, setShowTimer] = useState(false);
   const [trackedTime, setTrackedTime] = useState(0);
-  const [timerRunning, setTimerRunning] = useState(false); 
+  const [timerRunning, setTimerRunning] = useState(false);
 
   const formatTime = (seconds) => {
     const h = Math.floor(seconds / 3600);

@@ -3,6 +3,7 @@ import supabase from "../Supabase/SupabaseClient";
 import React, { useState } from "react";
 import { Notification } from "./Notification";
 import "../css/App.css";
+import logo from "../assets/logo.png";
 import Switch from "./Switch";
 import LanguageSelector from "./LanguageSelector";
 import { useTranslation } from "react-i18next";
@@ -38,7 +39,17 @@ export function Header() {
         </svg>
       </div>
 
-      <h1 className="logo">GoalPlan</h1>
+      <h1 className="logo">
+        {" "}
+        <img
+          src={logo}
+          alt="Logo"
+          width={40}
+          height={40}
+          style={{ filter: "brightness(30)" }}
+        />
+        GoalPlan
+      </h1>
 
       <div className="switch-box">
         <Switch />

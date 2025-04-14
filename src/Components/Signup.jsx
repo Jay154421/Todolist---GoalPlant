@@ -38,7 +38,7 @@ export function Signup() {
     <div className="signup-container">
       <div className="signup-box">
         <div className="logo-container">
-          <img src={logo} alt="Logo" width={45} height={45} />
+          <img src={logo} alt="Logo" width={55} height={55} />
         </div>
         <h1 className="app-title">GoalPlan</h1>
         <h2 className="signup-heading">Create an account</h2>
